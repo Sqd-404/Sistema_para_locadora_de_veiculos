@@ -2,6 +2,7 @@
  * 
  */
 import * as fs from 'fs';
+const clientes = require('./clientes.json')
 
 import { Aluguel } from "./Aluguel";
 import { Locadora } from "./Locadora";
@@ -49,19 +50,19 @@ export class Cliente{
         //métodos//
 
         static listar() {
-            const content = fs.readFileSync('Clientes.json', 'utf-8');
+            const content = fs.readFileSync('./model/clientes.json', 'utf-8');
 
             const clientes = JSON.parse(content);
             return clientes;
         };
 
-       static cadastrarCliente(id:number, nome:string, cpf:string, tipoDeCarta:string): void{
+       static cadastrarCliente(id:number, nome:string, cpf:string, tipoDeCarta:string){
         const cliente = new Cliente (id, nome, cpf,tipoDeCarta);
         
         const clientes = Cliente.listar();
         clientes.push(cliente);
 
-        fs.writeFileSync('Clientes.json', JSON.stringify(clientes));
+        fs.writeFileSync('./model/clientes.json', JSON.stringify(clientes));
 
         };
 
@@ -74,7 +75,7 @@ export class Cliente{
                 cliente.cpf = cpf;
                 cliente.tipoDeCarta = tipoDeCarta;
 
-                fs.writeFileSync('Clientes.json', JSON.stringify(clientes));
+                fs.writeFileSync('./model/clientes.json', JSON.stringify(clientes));
 
             }else{
                 console.log(`Cliente com ${id} não foi encontrado!`);
@@ -89,7 +90,7 @@ export class Cliente{
 
             if(index !== -1){
                 clientes.splice(index, 1);
-                fs.writeFileSync('Clientes.json', JSON.stringify(clientes));
+                fs.writeFileSync('./model/clientes.json', JSON.stringify(clientes));
             }else{
                 console.log(`Cliente com id ${id} não encontrado!`);
             }
