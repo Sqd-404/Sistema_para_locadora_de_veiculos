@@ -1,3 +1,3 @@
-class Locadora {
+export class Locadora {
     
 }

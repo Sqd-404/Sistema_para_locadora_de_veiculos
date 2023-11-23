@@ -1,5 +1,5 @@
 /**
  */
-class Aluguel {
+export class Aluguel {
 
 }

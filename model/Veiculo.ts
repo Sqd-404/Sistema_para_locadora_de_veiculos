@@ -1,6 +1,6 @@
 /**
  * 
  */
-class Veiculo{
+export class Veiculo{
     
 }
