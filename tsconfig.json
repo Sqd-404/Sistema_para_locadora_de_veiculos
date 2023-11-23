@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "target": "es2020",
+    "module": "commonjs",
+    "outDir": "build"
+  },
+  "include": ["model/*.ts"],
+  "exclude": ["node_modules"]
+}
