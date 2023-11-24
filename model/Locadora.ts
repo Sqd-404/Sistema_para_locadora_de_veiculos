@@ -1,6 +1,6 @@
 import Veiculo from "./Veiculo";
-import Aluguel from "./Aluguel";
 import Cliente from "./Cliente";
+import { Aluguel } from "./Aluguel";
 
 const fs = require("fs");
 const path = require("path");
@@ -211,8 +211,6 @@ export class Locadora {
 		}
 	}
 
-
-
 	/**
 	 * Função responsável pelo cadastro de veiculos, ela possui uma verificação garantindo uma placa unica.
 	 * @param tipo
@@ -274,18 +272,19 @@ export class Locadora {
 		placa: string,
 		valorDiaria: number
 	) {
-        const veiculos = Locadora.listarVeiculos();
+		const veiculos = Locadora.listarVeiculos();
 		/**
 		 * verifica se existe a placa cadastrada
 		 */
 		const veiculoExiste = veiculos.find(
-			(veiculo: Veiculo) => veiculo.placa === placa);
+			(veiculo: Veiculo) => veiculo.placa === placa
+		);
 		if (veiculoExiste) {
-            veiculoExiste.tipo = tipo;
-            veiculoExiste.marca = marca;
-            veiculoExiste.modelo = modelo;
-            veiculoExiste.ano = ano;
-            veiculoExiste.valorDiaria = valorDiaria;
+			veiculoExiste.tipo = tipo;
+			veiculoExiste.marca = marca;
+			veiculoExiste.modelo = modelo;
+			veiculoExiste.ano = ano;
+			veiculoExiste.valorDiaria = valorDiaria;
 			try {
 				const filePath = path.join(__dirname, "..", "data", "veiculos.json");
 				fs.writeFileSync(filePath, JSON.stringify(veiculos));
@@ -294,6 +293,52 @@ export class Locadora {
 			}
 		} else {
 			console.log(`Veiculo com placa ${placa} não foi encontrado.`);
+		}
+	}
+
+	static recuperarCliente(cpf: string) : Cliente | undefined  {
+		const clientes = Locadora.listarClientes();
+		const clienteEncontrado = clientes.find(
+			(cliente: Cliente) => cliente.cpf === cpf
+		);
+		if (clienteEncontrado !== -1) {
+			const { nome, cpf, tipoCarteira } =
+            clienteEncontrado;
+			const cliente = new Cliente(
+                nome,
+                cpf,
+                tipoCarteira
+			);
+            return cliente;
+
+		} else {
+			console.log(`cliente com cpf ${cpf} não foi encontrado.`);
+			return undefined;
+		}
+	}
+
+	static recuperarVeiculo(placa: string): Veiculo | undefined  {
+		const veiculos = Locadora.listarVeiculos();
+		const veiculoEncontrado = veiculos.find(
+			(veiculo: Veiculo) => veiculo.placa === placa
+		);
+		if (veiculoEncontrado !== -1) {
+			const { tipo, marca, modelo, ano, placa, valorDiaria, estaDisponivel } =
+				veiculoEncontrado;
+			const veiculo = new Veiculo(
+				tipo,
+				marca,
+				modelo,
+				ano,
+				placa,
+				valorDiaria,
+			);
+            veiculo.estaDisponivel=estaDisponivel;
+            return veiculo;
+
+		} else {
+			console.log(`Veiculo com placa ${placa} não foi encontrado.`);
+			return undefined;
 		}
 	}
 	/**
@@ -306,12 +351,14 @@ export class Locadora {
 	 * @param valorDiaria
 	 */
 	static excluirVeiculo(placa: string) {
-        const veiculos = Locadora.listarVeiculos();
+		const veiculos = Locadora.listarVeiculos();
 		/**
 		 * verifica se existe a placa cadastrada
 		 */
-		const index = veiculos.findIndex((veiculo: Veiculo) => veiculo.placa === placa); 
-        if (index !== -1) {
+		const index = veiculos.findIndex(
+			(veiculo: Veiculo) => veiculo.placa === placa
+		);
+		if (index !== -1) {
 			veiculos.splice(index, 1);
 			try {
 				const filePath = path.join(__dirname, "..", "data", "veiculos.json");
@@ -353,7 +400,7 @@ export class Locadora {
 		}
 	}
 
-    	/**
+	/**
 	 *
 	 * @param id
 	 * @param dataInicio
@@ -363,33 +410,75 @@ export class Locadora {
 	 * @param veiculo
 	 * @param estaAtivo
 	 */
-	cadastarAluguel(
-		id: number,
+	static cadastarAluguel(
 		dataInicio: Date,
 		dataFim: Date,
-		valorAluguel: number,
 		cliente: Cliente,
-		veiculo: Veiculo,
-		estaAtivo: boolean
+		veiculo: Veiculo
 	) {
-		//todo
+		const novoAluguel = new Aluguel(dataInicio, dataFim, cliente, veiculo);
+		const alugueis = Locadora.listarAlugueis();
+		const alugueisAtivos = Locadora.listarAlugueisAtivos();
+
+		const clienteAtivo = alugueisAtivos.some(
+			(aluguel) => alugueis.cliente === cliente
+		);
+		const carroAtivo = alugueisAtivos.some(
+			(aluguel) => alugueis.veiculo === veiculo
+		);
+		if (clienteAtivo) {
+			console.log(
+				"O cliente já possui um aluguel ativo. Não é possível adicionar o aluguel."
+			);
+			return;
+		} else if (carroAtivo) {
+			console.log(
+				"O carro já possui um aluguel ativo. Não é possível adicionar o aluguel."
+			);
+			return;
+		} else {
+			alugueis.push(novoAluguel);
+			try {
+				const filePath = path.join(__dirname, "..", "data", "alugueis.json");
+				fs.writeFileSync(filePath, JSON.stringify(alugueis));
+			} catch (error) {
+				console.error("Erro ao ler o arquivo JSON:", error);
+			}
+		}
 	}
 
 	editarAluguel(
-		id: number,
 		dataInicio: Date,
 		dataFim: Date,
-		valorAluguel: number,
 		cliente: Cliente,
-		veiculo: Veiculo,
-		estaAtivo: boolean
+		veiculo: Veiculo
 	) {
 		//todo id unico
 	}
-	listarAlugueis() {
-		//todo listar todos os alugueis
+
+	static listarAlugueis() {
+		try {
+			const filePath = path.join(__dirname, "..", "data", "alugueis.json");
+			const content = fs.readFileSync(filePath, "utf-8");
+			const alugueis = JSON.parse(content);
+			return alugueis;
+		} catch (error) {
+			console.error("Erro ao ler o arquivo JSON:", error);
+			return [];
+		}
 	}
-	listarAlugueisAtivos() {
-		//todo listar todos os alugueis onde estáativo é true.
+	static listarAlugueisAtivos() {
+		try {
+			const filePath = path.join(__dirname, "..", "data", "alugueis.json");
+			const content = fs.readFileSync(filePath, "utf-8");
+			const alugueis = JSON.parse(content);
+			const alugueisFiltrados = alugueis.filter(
+				(aluguel: Aluguel) => aluguel.estaAtivo === true
+			);
+			return alugueisFiltrados;
+		} catch (error) {
+			console.error("Erro ao ler o arquivo JSON:", error);
+			return [];
+		}
 	}
 }
