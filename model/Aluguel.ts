@@ -1,9 +1,10 @@
 import Cliente from "./Cliente";
 import Veiculo from "./Veiculo";
 
-export class Aluguel {
+class Aluguel {
 
     constructor(
+        private _id: number,
         private _dataInicio: Date,
         private _dataFim: Date,
         private _valorAluguel: Number,
@@ -13,6 +14,13 @@ export class Aluguel {
     ) { }
 
     //==> Getters e Setters <==
+
+    public get id() : number {
+        return this._id;
+    }
+    public set id(id : number) {
+        this._id = id;
+    }
 
     public get dataInicio() : Date {
         return this._dataInicio
@@ -66,7 +74,7 @@ export class Aluguel {
         if(this._veiculo.tipo === 'Carro') {
             acrescimo = 0.1;
         } else if(this._veiculo.tipo === 'Moto') {
-            acrescimo = 0.5;
+            acrescimo = 0.05;
         }
 
         const resultado = this._veiculo.valorDiaria * diasAlugados * (1 + acrescimo);
