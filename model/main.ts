@@ -1,9 +1,10 @@
+// main.ts
+
 import * as readlineSync from 'readline-sync';
+import { Cliente } from './Cliente';
+import Veiculo from './Veiculo';
 
-
-
-const locadora = new Locadora();
-
+const veiculos: Veiculo[] = []; // Array de veículos inicializado
 
 function exibirMenu() {
     console.log('======= MENU =======');
@@ -16,7 +17,6 @@ function exibirMenu() {
     console.log('====================');
 }
 
-
 let running = true;
 while (running) {
     exibirMenu();
@@ -24,23 +24,34 @@ while (running) {
 
     switch (opcao) {
         case 1:
-            
+            const novaPlaca = readlineSync.question('Digite a placa do veículo: ');
+            const novoVeiculo = new Veiculo(novaPlaca);
+            novoVeiculo.cadastrarVeiculo(veiculos, novaPlaca);
             break;
+
         case 2:
-            
+            const tipoVeiculoAluguel = readlineSync.question('Digite o tipo do veículo a alugar (carro/moto): ');
+            const clienteAluguel = new Cliente( );
+            novoVeiculo.alugarVeiculo(clienteAluguel, tipoVeiculoAluguel);
             break;
+
         case 3:
-            
+            const clienteDevolucao = new Cliente( );
+            novoVeiculo.devolverVeiculo(clienteDevolucao);
             break;
+
         case 4:
-            
+            Veiculo.listarVeiculosDisponiveis(veiculos);
             break;
+
         case 5:
-            
+            Veiculo.listarVeiculosAlugados(veiculos);
             break;
+
         case 6:
             running = false;
             break;
+
         default:
             console.log('Opção inválida. Tente novamente.');
     }
