@@ -22,9 +22,9 @@ Aluguel.inicializarContador();
 // console.table(Locadora.listarVeiculos());
 // Locadora.excluirVeiculo('A58DGF');
 // console.table(Locadora.listarVeiculos());
-// let veiculo: Veiculo | undefined = Locadora.recuperarVeiculo('BCD7890');
-// let cliente: Cliente | undefined = Locadora.recuperarCliente('123.456.789-00');
-// const dataInicial: Date = new Date(2023, 10, 23);
-// const dataFinal: Date = new Date(2023, 10, 29);
-// Locadora.cadastarAluguel(dataInicial,dataFinal, cliente!, veiculo!)
+let veiculo: Veiculo | undefined = Locadora.recuperarVeiculo('BCD7890');
+let cliente: Cliente | undefined = Locadora.recuperarCliente('123.456.789-00');
+const dataInicial: Date = new Date(2023, 10, 23);
+const dataFinal: Date = new Date(2023, 10, 29);
+Locadora.cadastarAluguel(dataInicial,dataFinal, cliente!, veiculo!)
 console.table(Locadora.listarAlugueis())
