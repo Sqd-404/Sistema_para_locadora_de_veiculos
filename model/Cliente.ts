@@ -8,7 +8,7 @@ import { Aluguel } from "./Aluguel";
 import { Locadora } from "./Locadora";
 import { Veiculo } from "./Veiculo";
 
-export class Cliente{
+ class Cliente{
 
     private id: number;
     private nome: string;
