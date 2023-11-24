@@ -1,11 +1,10 @@
 import * as readlineSync from 'readline-sync';
 
-// Código das classes e lógica do sistema aqui...
 
-// Instanciando a locadora
+
 const locadora = new Locadora();
 
-// Função para exibir o menu
+
 function exibirMenu() {
     console.log('======= MENU =======');
     console.log('1. Cadastrar veículo');
@@ -17,7 +16,7 @@ function exibirMenu() {
     console.log('====================');
 }
 
-// Loop do programa
+
 let running = true;
 while (running) {
     exibirMenu();
