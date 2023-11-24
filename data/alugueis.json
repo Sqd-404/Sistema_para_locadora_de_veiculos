@@ -1,0 +1,1 @@
+[{"_dataInicio":"2023-11-23T03:00:00.000Z","_dataFim":"2023-11-29T03:00:00.000Z","_cliente":{"nome":"Cliente Manual modificado","cpf":"123.456.789-00","tipoCarteira":"AB"},"_veiculo":{"tipo":"moto","marca":"BMW","modelo":"S 1000 RR","ano":2024,"placa":"BCD7890","valorDiaria":88,"estaDisponivel":true},"_estaAtivo":true,"_id":1}]

@@ -1,0 +1,17 @@
+{
+  "name": "sistema_para_locadora_de_veiculos",
+  "version": "1.0.0",
+  "description": "Projeto Ada modulo 2",
+  "main": "build/main.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node build/main.js"
+  },
+  "keywords": [],
+  "author": "Squad404",
+  "license": "ISC",
+  "devDependencies": {
+    "ts-node": "^10.9.1",
+    "typescript": "^5.3.2"
+  }
+}
