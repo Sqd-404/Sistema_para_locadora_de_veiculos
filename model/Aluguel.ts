@@ -112,7 +112,7 @@ class Aluguel {
             if(index !== -1) {
                 veiculos[index].estaDisponivel = !this._estaAtivo; // Define disponibilidade baseado no status do aluguel
 
-                fs.writeFileSync(filePath, JSON.stringify(veiculos, null, 2)); // Persiste a atualização no arquivo JSON
+                fs.writeFileSync(filePath, JSON.stringify(veiculos)); // Persiste a atualização no arquivo JSON
             } else {
                 console.log(
                     `Veículo com placa ${this._veiculo.placa} não foi encontrado.`
