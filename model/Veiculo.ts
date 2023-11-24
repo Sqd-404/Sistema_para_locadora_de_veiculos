@@ -2,6 +2,7 @@
  * 
  */
 export class Veiculo{
+    public estaDisponivel: boolean = true;
     
     constructor(
         public tipo: string,
@@ -10,7 +11,6 @@ export class Veiculo{
         public ano: number,
         public placa: string,
         public valorDiaria: number,
-        public estaDisponivel: boolean
     ) { }
 }
 
