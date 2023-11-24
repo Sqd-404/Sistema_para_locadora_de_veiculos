@@ -1,10 +1,15 @@
-// main.ts
+/**
+ * @author Victor Hugo
+ * @date 2023/11/24
+ * @description Menu Principal de uma locadora de veículos;
+ */
+
 
 import * as readlineSync from 'readline-sync';
 import { Cliente } from './Cliente';
 import Veiculo from './Veiculo';
 
-const veiculos: Veiculo[] = []; // Array de veículos inicializado
+const veiculos: Veiculo[] = [];
 
 function exibirMenu() {
     console.log('======= MENU =======');

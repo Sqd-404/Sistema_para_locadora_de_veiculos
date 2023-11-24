@@ -13,17 +13,16 @@ export class Cliente {
     private nome: string;
     private cpf: string;
     private tipoDeCarta: string;
-    private veiculoAlugado: Veiculo | null; // Adicionando a propriedade veiculoAlugado
+    private veiculoAlugado: Veiculo | null; 
 
     constructor(id: number, nome: string, cpf: string, tipoDeCarta: string) {
         this.id = id;
         this.nome = nome;
         this.cpf = cpf;
         this.tipoDeCarta = tipoDeCarta;
-        this.veiculoAlugado = null; // Inicializando veiculoAlugado como nulo
+        this.veiculoAlugado = null;
     }
 
-    // getters e setters omitidos para brevidade
 
     public get $veiculoAlugado(): Veiculo | null {
         return this.veiculoAlugado;
@@ -34,7 +33,6 @@ export class Cliente {
     }
 
 
-        //geters e seters//
 
     public get $nome(): string{
         return this.nome;
@@ -59,7 +57,6 @@ export class Cliente {
         this.tipoDeCarta = value;
     }
 
-        //métodos//
 
         static listar() {
             const content = fs.readFileSync('./model/clientes.json', 'utf-8');
