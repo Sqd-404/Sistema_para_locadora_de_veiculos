@@ -10,12 +10,12 @@ const path = require('path');
  */
 export class Locadora {
     constructor(
-        private nome: string,
-        private cnpj: string,
-        private veiculos: Veiculo[],
-        private alugueis: Aluguel[],
-        private veiculosDisponiveis:Veiculo[],
-        private alugueisAtivos: Aluguel[]
+        private _nome: string,
+        private _cnpj: string,
+        private _veiculos: Veiculo[],
+        private _alugueis: Aluguel[],
+        private _veiculosDisponiveis:Veiculo[],
+        private _alugueisAtivos: Aluguel[]
         ) {
 	}
 
@@ -26,7 +26,7 @@ export class Locadora {
      * @return {string}
      */
 	public get $nome(): string {
-		return this.nome;
+		return this._nome;
 	}
 
     /**
@@ -34,7 +34,7 @@ export class Locadora {
      * @param {string} value
      */
 	public set $nome(value: string) {
-		this.nome = value;
+		this._nome = value;
 	}
 
     /**
@@ -42,7 +42,7 @@ export class Locadora {
      * @return {string}
      */
 	public get $cnpj(): string {
-		return this.cnpj;
+		return this._cnpj;
 	}
 
     /**
@@ -50,7 +50,7 @@ export class Locadora {
      * @param {string} value
      */
 	public set $cnpj(value: string) {
-		this.cnpj = value;
+		this._cnpj = value;
 	}
 
     /**
@@ -58,7 +58,7 @@ export class Locadora {
      * @return {Veiculo[]}
      */
 	public get $veiculosDisponiveis(): Veiculo[] {
-		return this.veiculosDisponiveis;
+		return this._veiculosDisponiveis;
 	}
 
     /**
@@ -66,7 +66,7 @@ export class Locadora {
      * @param {Veiculo[]} value
      */
 	public set $veiculosDisponiveis(value: Veiculo[]) {
-		this.veiculosDisponiveis = value;
+		this._veiculosDisponiveis = value;
 	}
 
     /**
@@ -74,7 +74,7 @@ export class Locadora {
      * @return {Aluguel[]}
      */
 	public get $alugueisAtivos(): Aluguel[] {
-		return this.alugueisAtivos;
+		return this._alugueisAtivos;
 	}
 
     /**
@@ -82,7 +82,7 @@ export class Locadora {
      * @param {Aluguel[]} value
      */
 	public set $alugueisAtivos(value: Aluguel[]) {
-		this.alugueisAtivos = value;
+		this._alugueisAtivos = value;
 	}
 
     /**
@@ -90,7 +90,7 @@ export class Locadora {
      * @return {Aluguel[]}
      */
 	public get $alugueis(): Aluguel[] {
-		return this.alugueis;
+		return this._alugueis;
 	}
 
     /**
@@ -98,7 +98,7 @@ export class Locadora {
      * @param {Aluguel[]} value
      */
 	public set $alugueis(value: Aluguel[]) {
-		this.alugueis = value;
+		this._alugueis = value;
 	}
 
     /**
@@ -106,7 +106,7 @@ export class Locadora {
      * @return {Veiculo[]}
      */
 	public get $veiculos(): Veiculo[] {
-		return this.veiculos;
+		return this._veiculos;
 	}
 
     /**
@@ -114,19 +114,44 @@ export class Locadora {
      * @param {Veiculo[]} value
      */
 	public set $veiculos(value: Veiculo[]) {
-		this.veiculos = value;
+		this._veiculos = value;
 	}
 
-    cadastrarCliente (nome: string, cpf: string, tipoCarteira: string) {
-        const cliente = new Cliente(nome, cpf, tipoCarteira);
+    /**
+     * Função responsável pelo cadastro de clientes, ela possui uma verificação garantindo um cpf unico.
+     * @param nome 
+     * @param cpf 
+     * @param tipoCarteira 
+     * @returns 
+     */
+    static cadastrarCliente (nome: string, cpf: string, tipoCarteira: string) {
+        const clienteNovo = new Cliente(nome, cpf, tipoCarteira);
 
         const clientes = Locadora.listarClientes();
-        clientes.push(cliente);
-
-        fs.writeFileSync('../data/clientes.json', JSON.stringify(clientes));
+        
+        /**
+         * verifica se existe o cpf cadastrado
+         */
+        const cpfExiste = clientes.some(cliente => cliente.cpf === cpf); 
+        
+        if (cpfExiste){
+            console.log('CPF já cadastrado. Não é possível adicionar cliente.');
+            return;
+        } else {
+            clientes.push(clienteNovo);
+            try {
+                const filePath = path.join(__dirname, '..', 'data', 'clientes.json');
+                fs.writeFileSync(filePath, JSON.stringify(clientes));
+            } catch (error) {
+                console.error('Erro ao ler o arquivo JSON:', error);
+            }
+        }
        
     }
-
+    /**
+     * Metodo estático responsável por listar os clientes da locadora.
+     * @returns 
+     */
     static listarClientes(){
         try {
             const filePath = path.join(__dirname, '..', 'data', 'clientes.json');
@@ -139,9 +164,67 @@ export class Locadora {
         }
     }
 
-    editarCliente (nome: string, cpf: string, tipoCarteira: boolean) {
-        //todo cpf unico
+    /**
+     * A partir do cpf (atributo único de cliente) ele pega o cliente edita e salva o json
+     * @param nome 
+     * @param cpf 
+     * @param tipoCarteira 
+     */
+   static editarCliente (nome: string, cpf: string, tipoCarteira: string) {
+        const clientes = Locadora.listarClientes();
+         /**
+         * verifica se existe o cpf cadastrado
+         */
+        const clienteExiste = clientes.find((cliente: Cliente) => cliente.cpf === cpf);
+        if (clienteExiste) {
+            clienteExiste.nome = nome;
+            clienteExiste.tipoCarteira = tipoCarteira;
+            // fs.writeFileSync('usuarios.json', JSON.stringify(usuarios));
+            try {
+                const filePath = path.join(__dirname, '..', 'data', 'clientes.json');
+                fs.writeFileSync(filePath, JSON.stringify(clientes));
+            } catch (error) {
+                console.error('Erro ao ler o arquivo JSON:', error);
+            }
+        } else {
+            console.log(`Usuário com CPF ${cpf} não foi encontrado.`);
+        }
     }
+    /**
+     * A partir do cpf (atributo único de cliente) ele pega o cliente e o exclui
+     * @param nome 
+     * @param cpf 
+     * @param tipoCarteira 
+     */
+   static excluirCliente (nome: string, cpf: string, tipoCarteira: string) {
+        const clientes = Locadora.listarClientes();
+        /**
+        * verifica se existe o cpf cadastrado e retorna o index
+        */
+       const index = clientes.findIndex((cliente: Cliente) => cliente.cpf === cpf);
+        if (index !== -1) {
+            clientes.splice(index, 1); 
+            try {
+                const filePath = path.join(__dirname, '..', 'data', 'clientes.json');
+                fs.writeFileSync(filePath, JSON.stringify(clientes));
+            } catch (error) {
+                console.error('Erro ao ler o arquivo JSON:', error);
+            }
+        } else {
+            console.log(`Usuário com CPF ${cpf} não foi encontrado.`);
+        }
+    }
+
+    /**
+     * 
+     * @param id 
+     * @param dataInicio 
+     * @param dataFim 
+     * @param valorAluguel 
+     * @param cliente 
+     * @param veiculo 
+     * @param estaAtivo 
+     */
 
     cadastarAluguel (id: number, dataInicio: Date, dataFim: Date, valorAluguel: number, cliente: Cliente, veiculo: Veiculo, estaAtivo: boolean) {
         //todo
