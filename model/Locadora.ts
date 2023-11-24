@@ -1,47 +1,55 @@
-import { Veiculo } from "./veiculo";
-import { Aluguel } from './Aluguel';
-import { Cliente } from "./Cliente";
+import Veiculo from './Veiculo';
+import Aluguel from './Aluguel';
+import Cliente from './Cliente';
+
+
+const fs = require('fs');
+const path = require('path');
 
 /**
  */
-class Locadora {
-    private nome: String;
-    private cnpj: String;
-    private veiculos: Veiculo[];    
-    private alugueis: Aluguel[];
-    private veiculosDisponiveis:Veiculo[];
-    private alugueisAtivos: Aluguel[];
+export class Locadora {
+    constructor(
+        private nome: string,
+        private cnpj: string,
+        private veiculos: Veiculo[],
+        private alugueis: Aluguel[],
+        private veiculosDisponiveis:Veiculo[],
+        private alugueisAtivos: Aluguel[]
+        ) {
+	}
+
 
 
     /**
      * Getter $nome
-     * @return {String}
+     * @return {string}
      */
-	public get $nome(): String {
+	public get $nome(): string {
 		return this.nome;
 	}
 
     /**
      * Setter $nome
-     * @param {String} value
+     * @param {string} value
      */
-	public set $nome(value: String) {
+	public set $nome(value: string) {
 		this.nome = value;
 	}
 
     /**
      * Getter $cnpj
-     * @return {String}
+     * @return {string}
      */
-	public get $cnpj(): String {
+	public get $cnpj(): string {
 		return this.cnpj;
 	}
 
     /**
      * Setter $cnpj
-     * @param {String} value
+     * @param {string} value
      */
-	public set $cnpj(value: String) {
+	public set $cnpj(value: string) {
 		this.cnpj = value;
 	}
 
@@ -109,15 +117,29 @@ class Locadora {
 		this.veiculos = value;
 	}
 
+    cadastrarCliente (nome: string, cpf: string, tipoCarteira: string) {
+        const cliente = new Cliente(nome, cpf, tipoCarteira);
 
-	constructor() {
-	}
+        const clientes = Locadora.listarClientes();
+        clientes.push(cliente);
 
-    cadastrarCliente (nome: String, cpf: String, tipoCarteira: boolean) {
-        //todo
+        fs.writeFileSync('../data/clientes.json', JSON.stringify(clientes));
+       
     }
 
-    editarCliente (nome: String, cpf: String, tipoCarteira: boolean) {
+    static listarClientes(){
+        try {
+            const filePath = path.join(__dirname, '..', 'data', 'clientes.json');
+            const content = fs.readFileSync(filePath, 'utf-8');
+            const clientes = JSON.parse(content);
+            return clientes;
+        } catch (error) {
+            console.error('Erro ao ler o arquivo JSON:', error);
+            return [];
+        }
+    }
+
+    editarCliente (nome: string, cpf: string, tipoCarteira: boolean) {
         //todo cpf unico
     }
 
@@ -129,11 +151,11 @@ class Locadora {
         //todo id unico
     }
 
-    cadastrarVeiculo (tipo: String, marca: String, modelo: String, ano: number, placa: String, valorDiaria: number, estaDisponivel: boolean) {
+    cadastrarVeiculo (tipo: string, marca: string, modelo: string, ano: number, placa: string, valorDiaria: number, estaDisponivel: boolean) {
         //todo
     }
 
-    editarVeiculo (tipo: String, marca: String, modelo: String, ano: number, placa: String, valorDiaria: number, estaDisponivel: boolean) {
+    editarVeiculo (tipo: string, marca: string, modelo: string, ano: number, placa: string, valorDiaria: number, estaDisponivel: boolean) {
         //todo placa unico
     }
 
