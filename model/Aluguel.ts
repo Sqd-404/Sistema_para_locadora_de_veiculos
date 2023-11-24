@@ -59,17 +59,16 @@ class Aluguel {
     //==> Métodos <==
 
     calcularValorAlguel() : Number {
-        const diasAlugados =  Math.ceil((this._dataFim.getTime() - this._dataInicio.getTime()) / (1000 * 3600 * 24)); 
+        const diasAlugados =  Math.ceil((this._dataFim.getTime() - this._dataInicio.getTime()) / (1000 * 3600 * 24)); // Calcula o número de dias de aluguel
 
-        let acrescimo = 0;
+        let resultado = this._veiculo.valorDiaria * diasAlugados;
 
         if(this._veiculo.tipo === 'Carro') {
-            acrescimo = 0.1;
+            resultado += resultado * 0.1; // Acréscimo de 10% para carros
         } else if(this._veiculo.tipo === 'Moto') {
-            acrescimo = 0.5;
+            resultado += resultado * 0.05; // Acréscimo de 5% para motos
         }
 
-        const resultado = this._veiculo.valorDiaria * diasAlugados * (1 + acrescimo);
         return resultado;
     }
     
