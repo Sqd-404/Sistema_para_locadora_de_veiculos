@@ -143,7 +143,7 @@ export class Locadora {
 			veiculos.push(veiculoNovo);
 			try {
 				const filePath = path.join(__dirname, "..", "data", "veiculos.json");
-				fs.writeFileSync(filePath, JSON.stringify(veiculos));
+				fs.writeFileSync(filePath, JSON.stringify(veiculos, null, 2));
 			} catch (error) {
 				console.error("Erro ao ler o arquivo JSON:", error);
 			}
@@ -173,7 +173,7 @@ export class Locadora {
 			veiculoExiste.valorDiaria = valorDiaria;
 			try {
 				const filePath = path.join(__dirname, "..", "data", "veiculos.json");
-				fs.writeFileSync(filePath, JSON.stringify(veiculos));
+				fs.writeFileSync(filePath, JSON.stringify(veiculos, null, 2));
 			} catch (error) {
 				console.error("Erro ao ler o arquivo JSON:", error);
 			}
@@ -211,7 +211,7 @@ export class Locadora {
 			veiculos.splice(index, 1);
 			try {
 				const filePath = path.join(__dirname, "..", "data", "veiculos.json");
-				fs.writeFileSync(filePath, JSON.stringify(veiculos));
+				fs.writeFileSync(filePath, JSON.stringify(veiculos, null, 2));
 			} catch (error) {
 				console.error("Erro ao ler o arquivo JSON:", error);
 			}
@@ -281,7 +281,7 @@ export class Locadora {
 
 			try {
 				const filePath = path.join(__dirname, "..", "data", "alugueis.json");
-				fs.writeFileSync(filePath, JSON.stringify(alugueis));
+				fs.writeFileSync(filePath, JSON.stringify(alugueis, null, 2));
 			} catch (error) {
 				console.error("Erro ao escrever no arquivo JSON:", error);
 			}

@@ -115,7 +115,7 @@ class Cliente {
 			clientes.push(novoCliente);
 			try {
                 const filePath = path.join(__dirname, "..", "data", "clientes.json");
-				fs.writeFileSync(filePath, JSON.stringify(clientes));
+				fs.writeFileSync(filePath, JSON.stringify(clientes, null, 2));
                 console.log(`Cliente ${nome} cadastrado com sucesso!`);
 			} catch (error) {
 				console.error("Erro ao ler o arquivo JSON:", error);
@@ -139,7 +139,7 @@ class Cliente {
 
 			try {
 				const filePath = path.join(__dirname, "..", "data", "clientes.json");
-				fs.writeFileSync(filePath, JSON.stringify(clientes));
+				fs.writeFileSync(filePath, JSON.stringify(clientes, null, 2));
 			} catch (error) {
 				console.error("Erro ao ler o arquivo JSON:", error);
 			}
@@ -156,7 +156,7 @@ class Cliente {
 			clientes.splice(index, 1);
 			try {
 				const filePath = path.join(__dirname, "..", "data", "clientes.json");
-				fs.writeFileSync(filePath, JSON.stringify(clientes));
+				fs.writeFileSync(filePath, JSON.stringify(clientes, null, 2));
 			} catch (error) {
 				console.error("Erro ao ler o arquivo JSON:", error);
 			}
