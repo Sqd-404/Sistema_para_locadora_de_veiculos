@@ -50,9 +50,11 @@ while (running) {
 
         case 3:
             const cpfClienteDevolucao = readlineSync.question('Digite o CPF do cliente: ');
-
+            const aluguelAtivo = Aluguel.listarAlugueisAtivos().find((aluguel) => aluguel._cliente.cpf === cpfCliente);
+            aluguelAtivo.devolucaoVeiculo(cpfClienteDevolucao);
+            
         case 4:
-            Veiculo.listarVeiculosDisponiveis(veiculos);
+            Locadora.listarVeiculosDisponiveis();
             break;
 
         case 5:

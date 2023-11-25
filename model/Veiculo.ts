@@ -1,4 +1,5 @@
 import Cliente from "./Cliente";
+import Aluguel from "./Aluguel";
 
 class Veiculo {
     tipo: string;
@@ -30,27 +31,31 @@ class Veiculo {
         }
     }
 
-    devolverVeiculo(cliente: Cliente) {
-        if (cliente.$veiculoAlugado === this) {
-            this.alugado = false;
-            cliente.$veiculoAlugado = null;
-            console.log('Veículo devolvido com sucesso!');
+    devolverVeiculo(cpfCliente: string): void {
+        const aluguelAtivo = Aluguel.listarAlugueisAtivos().find(
+            (aluguel) => aluguel._cliente.cpf === cpfCliente
+        );
+
+        if (aluguelAtivo) {
+            aluguelAtivo.atualizarStatus();
+
+            if (aluguelAtivo._estaAtivo) {
+                console.log('Veículo devolvido dentro do prazo.');
+            } else {
+                console.log('Veículo devolvido após a data de devolução.');
+            }
+
+            console.log('Veículo devolvido com sucesso.');
         } else {
-            console.log('Este veículo não está alugado por este cliente.');
+            console.log('Não há aluguel ativo para este cliente.');
         }
     }
 
-    /* static listarVeiculosDisponiveis(veiculos: Veiculo[]) {
-        const veiculosDisponiveis = veiculos.filter((veiculo) => !veiculo.alugado);
-        console.log('Veículos disponíveis:');
-        veiculosDisponiveis.forEach((veiculo) => console.log(veiculo.placa));
-    }
-
     static listarVeiculosAlugados(veiculos: Veiculo[]) {
-        const veiculosAlugados = veiculos.filter((veiculo) => veiculo.alugado);
+        const veiculosAlugados = veiculos.filter((veiculo) => !veiculo.estaDisponivel);
         console.log('Veículos alugados:');
         veiculosAlugados.forEach((veiculo) => console.log(veiculo.placa));
-    } */
+    }
 
     private veiculoExistente(veiculos: Veiculo[], placa: string): boolean {
         return veiculos.some((veiculo) => veiculo.placa === placa);

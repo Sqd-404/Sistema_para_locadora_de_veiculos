@@ -234,6 +234,7 @@ export class Locadora {
 			return [];
 		}
 	}
+
 	static listarVeiculosDisponiveis() {
 		try {
 			const filePath = path.join(__dirname, "..", "data", "veiculos.json");
@@ -248,7 +249,6 @@ export class Locadora {
 			return [];
 		}
 	}
-
 
 	static cadastrarAluguel(
 		dataInicio: Date,
