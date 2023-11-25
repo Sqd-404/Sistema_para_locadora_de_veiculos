@@ -249,7 +249,7 @@ export class Locadora {
 			(aluguel) => aluguel._veiculo.placa === placaVeiculo
 		);
 		const clienteAtivo = alugueisAtivos.some(
-			(aluguel) => aluguel._cliente.cpf === cliente.cpf
+			(aluguel) => aluguel._cliente.cpf === cpfCliente
 		);
 
 		// Verifica se o cliente e o veículo foram encontrados

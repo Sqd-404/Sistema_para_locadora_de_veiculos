@@ -7,6 +7,7 @@ import { read } from 'fs';
 
 Aluguel.inicializarContador();
 Cliente.inicializarContador();
+Cliente.cadastrarCliente('Zeno', '111.222.333-44', 'A');
 
 const veiculos: Veiculo[] = [];
 
@@ -42,10 +43,10 @@ while (running) {
             break;
 
         case 2:
-            const dataInicio = new Date(readlineSync.question('Digite a data de início (YYYY-MM-DD): '));
-            const dataFim = new Date(readlineSync.question('Digite a data de término (YYYY-MM-DD): '));
+            const dataInicio = new Date(readlineSync.question('Digite a data de inicio (YYYY-MM-DD): '));
+            const dataFim = new Date(readlineSync.question('Digite a data de termino (YYYY-MM-DD): '));
             const cpfCliente = readlineSync.question('Digite o CPF do cliente: ');
-            const placaVeiculo = readlineSync.question('Digite a placa do veículo que deseja alugar: ');
+            const placaVeiculo = readlineSync.question('Digite a placa do veiculo que deseja alugar: ');
             Locadora.cadastrarAluguel(dataInicio, dataFim, cpfCliente, placaVeiculo);
             break;
 

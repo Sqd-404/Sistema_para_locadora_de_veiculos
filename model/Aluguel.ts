@@ -18,7 +18,7 @@ class Aluguel {
 	) {
 		Aluguel.inicializarContador();
 		this._id = Aluguel.contador;
-		this._valorAluguel = this.calcularValorAlguel();
+		this._valorAluguel = this.calcularValorAluguel();
 		this.atualizarStatus();
 	}
 
@@ -75,7 +75,7 @@ class Aluguel {
 
 	//==> Métodos <==
 
-	calcularValorAlguel(): number {
+	calcularValorAluguel(): number {
 		const diasAlugados = Math.ceil(
 			(this._dataFim.getTime() - this._dataInicio.getTime()) /
 				(1000 * 3600 * 24)
