@@ -177,6 +177,11 @@ class Cliente {
 		}
 	}
 
+	static encontrarClientePorCPF(cpf: string): Cliente | undefined {
+		const clientes = Cliente.listar();
+		return clientes.find((cliente) => cliente.cpf === cpf);
+	}
+
 	static inicializarContador() {
 		try {
 			const filePath = path.join(__dirname, "..", "data", "clientes.json");

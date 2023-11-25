@@ -1,4 +1,3 @@
-//todo menu / view
 import Aluguel from './model/Aluguel';
 import { Locadora } from './model/Locadora';
 import Veiculo from './model/Veiculo';
@@ -29,41 +28,28 @@ while (running) {
 
     switch (opcao) {
         case 1:
-            let tipo = readlineSync.question('Digite o tipo do novo veiculo (carro/moto): ');
-            let marca = readlineSync.question('Digite a marca do novo veiculo: ');
-            let modelo = readlineSync.question('Digite o modelo do novo veiculo: ');
-            let ano = parseInt(readlineSync.question('Digite o ano do novo veiculo: '));
-            let placa = readlineSync.question('Digite a placa do novo veiculo: ');
-            let diaria = parseInt(readlineSync.question('Digite o valor da diaria para o novo veiculo: '));
-            let disponivel = readlineSync.question('Este veiculo estara disponivel para aluguel? S/N: ');
-            let estaDisponivel = disponivel === 'S' ? true : false
+            const tipo = readlineSync.question('Digite o tipo do novo veiculo (carro/moto): ');
+            const marca = readlineSync.question('Digite a marca do novo veiculo: ');
+            const modelo = readlineSync.question('Digite o modelo do novo veiculo: ');
+            const ano = parseInt(readlineSync.question('Digite o ano do novo veiculo: '));
+            const placa = readlineSync.question('Digite a placa do novo veiculo: ');
+            const diaria = parseInt(readlineSync.question('Digite o valor da diaria para o novo veiculo: '));
+            const disponivel = readlineSync.question('Este veiculo estara disponivel para aluguel? S/N: ');
+            const estaDisponivel = disponivel === 'S' ? true : false
             const novoVeiculo = new Veiculo(tipo, marca, modelo, ano, placa, diaria, estaDisponivel);
             novoVeiculo.cadastrarVeiculo(veiculos, tipo, marca, modelo, ano, placa, diaria, estaDisponivel);
             break;
 
         case 2:
-            tipo = readlineSync.question('Digite o tipo do novo veiculo (carro/moto): ');
-            marca = readlineSync.question('Digite a marca do novo veiculo: ');
-            modelo = readlineSync.question('Digite o modelo do novo veiculo: ');
-            ano = parseInt(readlineSync.question('Digite o ano do novo veiculo: '));
-            placa = readlineSync.question('Digite a placa do novo veiculo: ');
-            diaria = parseInt(readlineSync.question('Digite o valor da diaria para o novo veiculo: '));
-            disponivel = readlineSync.question('Este veiculo estara disponivel para aluguel? S/N: ');
-            estaDisponivel = disponivel === 'S' ? true : false
-            let nome = readlineSync.question('Digite o nome do cliente: ');
-            let cpf = readlineSync.question('Digite o CPF do cliente: ');
-            let carta = readlineSync.question('Digite o tipo da carteira do cliente (A/B): ');
-            let inicio = readlineSync.question('Digite a data de inicio do aluguel: ');
-            let fim = readlineSync.question('Digite a data de devolucao: ');
-            const clienteAluguel = new Cliente(nome, cpf, carta);
-            const veiculoAluguel = new Veiculo(tipo, marca, modelo, ano, placa, diaria, estaDisponivel);
-0           novoVeiculo.cadastarAluguel(inicio, fim, clienteAluguel, veiculoAluguel);
+            const dataInicio = new Date(readlineSync.question('Digite a data de início (YYYY-MM-DD): '));
+            const dataFim = new Date(readlineSync.question('Digite a data de término (YYYY-MM-DD): '));
+            const cpfCliente = readlineSync.question('Digite o CPF do cliente: ');
+            const placaVeiculo = readlineSync.question('Digite a placa do veículo que deseja alugar: ');
+            Locadora.cadastrarAluguel(dataInicio, dataFim, cpfCliente, placaVeiculo);
             break;
 
         case 3:
-            const clienteDevolucao = new Cliente( );
-            novoVeiculo.devolverVeiculo(clienteDevolucao);
-            break;
+            const cpfClienteDevolucao = readlineSync.question('Digite o CPF do cliente: ');
 
         case 4:
             Veiculo.listarVeiculosDisponiveis(veiculos);

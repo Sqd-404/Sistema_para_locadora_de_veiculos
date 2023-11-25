@@ -19,7 +19,7 @@ class Aluguel {
 		Aluguel.inicializarContador();
 		this._id = Aluguel.contador;
 		this._valorAluguel = this.calcularValorAlguel();
-		this._atualizarStatus();
+		this.atualizarStatus();
 	}
 
 	//==> Getters e Setters <==
@@ -92,7 +92,7 @@ class Aluguel {
 		return resultado;
 	}
 
-	private _atualizarStatus(): void {
+	atualizarStatus(): void {
 		const hoje = new Date();
 
 		if (hoje >= this.dataInicio && hoje <= this._dataFim) {

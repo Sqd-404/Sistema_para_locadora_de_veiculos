@@ -30,21 +30,6 @@ class Veiculo {
         }
     }
 
-    alugarVeiculo(cliente: Cliente, tipoVeiculo: string) {
-        if (cliente.$veiculoAlugado) {
-            console.log('Você já possui um veículo alugado.');
-            return;
-        }
-
-        if (!this.alugado && ((tipoVeiculo === 'carro' && cliente._tipoDeCarteira === 'B') || (tipoVeiculo === 'moto' && cliente.$tipoDeCarteira === 'A'))) {
-            this.alugado = true;
-            cliente.$veiculoAlugado = this;
-            console.log('Veículo alugado com sucesso!');
-        } else {
-            console.log('Não é possível alugar o veículo.');
-        }
-    }
-
     devolverVeiculo(cliente: Cliente) {
         if (cliente.$veiculoAlugado === this) {
             this.alugado = false;
@@ -55,7 +40,7 @@ class Veiculo {
         }
     }
 
-    static listarVeiculosDisponiveis(veiculos: Veiculo[]) {
+    /* static listarVeiculosDisponiveis(veiculos: Veiculo[]) {
         const veiculosDisponiveis = veiculos.filter((veiculo) => !veiculo.alugado);
         console.log('Veículos disponíveis:');
         veiculosDisponiveis.forEach((veiculo) => console.log(veiculo.placa));
@@ -65,7 +50,7 @@ class Veiculo {
         const veiculosAlugados = veiculos.filter((veiculo) => veiculo.alugado);
         console.log('Veículos alugados:');
         veiculosAlugados.forEach((veiculo) => console.log(veiculo.placa));
-    }
+    } */
 
     private veiculoExistente(veiculos: Veiculo[], placa: string): boolean {
         return veiculos.some((veiculo) => veiculo.placa === placa);
