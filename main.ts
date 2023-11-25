@@ -3,60 +3,81 @@ import Aluguel from './model/Aluguel';
 import { Locadora } from './model/Locadora';
 import Veiculo from './model/Veiculo';
 import Cliente from "./model/Cliente";
+import * as readlineSync from 'readline-sync';
+import { read } from 'fs';
 
+Aluguel.inicializarContador();
+Cliente.inicializarContador();
 
+const veiculos: Veiculo[] = [];
 
-// console.table(Locadora.listarClientes());
+function exibirMenu() {
+    console.log('======= MENU =======');
+    console.log('1. Cadastrar veículo');
+    console.log('2. Alugar veículo');
+    console.log('3. Devolver veículo');
+    console.log('4. Listar veículos disponíveis');
+    console.log('5. Listar veículos alugados');
+    console.log('6. Sair');
+    console.log('====================');
+}
 
-// Locadora.cadastrarCliente('Cliente Manual', '123.456.789-00', 'A');
-// console.table(Locadora.listarClientes());
-// Locadora.editarCliente('Cliente Manual modificado', '123.456.789-00', 'AB');
+let running = true;
+while (running) {
+    exibirMenu();
+    const opcao = parseInt(readlineSync.question('Escolha uma opção: '));
 
-// console.table(Locadora.listarClientes());
-// console.table(Locadora.listarVeiculos());
-//Locadora.cadastrarVeiculo('moto', 'manual', '008', 2000, 'A58DGF', 35);
-// console.table(Locadora.listarVeiculos());
-// console.table(Locadora.listarVeiculosDisponiveis());
-// console.table(Locadora.listarVeiculos());
-// Locadora.editarVeiculo('carro', 'auto', 'editado', 1988, 'A58DGF', 55);
-// console.table(Locadora.listarVeiculos());
-// Locadora.excluirVeiculo('A58DGF');
-// console.table(Locadora.listarVeiculos());
+    switch (opcao) {
+        case 1:
+            let tipo = readlineSync.question('Digite o tipo do novo veiculo (carro/moto): ');
+            let marca = readlineSync.question('Digite a marca do novo veiculo: ');
+            let modelo = readlineSync.question('Digite o modelo do novo veiculo: ');
+            let ano = parseInt(readlineSync.question('Digite o ano do novo veiculo: '));
+            let placa = readlineSync.question('Digite a placa do novo veiculo: ');
+            let diaria = parseInt(readlineSync.question('Digite o valor da diaria para o novo veiculo: '));
+            let disponivel = readlineSync.question('Este veiculo estara disponivel para aluguel? S/N: ');
+            let estaDisponivel = disponivel === 'S' ? true : false
+            const novoVeiculo = new Veiculo(tipo, marca, modelo, ano, placa, diaria, estaDisponivel);
+            novoVeiculo.cadastrarVeiculo(veiculos, tipo, marca, modelo, ano, placa, diaria, estaDisponivel);
+            break;
 
-// console.table(Cliente.listar())
-// let c1 = Cliente.recuperarCliente(3)
-// // console.table(c1)
+        case 2:
+            tipo = readlineSync.question('Digite o tipo do novo veiculo (carro/moto): ');
+            marca = readlineSync.question('Digite a marca do novo veiculo: ');
+            modelo = readlineSync.question('Digite o modelo do novo veiculo: ');
+            ano = parseInt(readlineSync.question('Digite o ano do novo veiculo: '));
+            placa = readlineSync.question('Digite a placa do novo veiculo: ');
+            diaria = parseInt(readlineSync.question('Digite o valor da diaria para o novo veiculo: '));
+            disponivel = readlineSync.question('Este veiculo estara disponivel para aluguel? S/N: ');
+            estaDisponivel = disponivel === 'S' ? true : false
+            let nome = readlineSync.question('Digite o nome do cliente: ');
+            let cpf = readlineSync.question('Digite o CPF do cliente: ');
+            let carta = readlineSync.question('Digite o tipo da carteira do cliente (A/B): ');
+            let inicio = readlineSync.question('Digite a data de inicio do aluguel: ');
+            let fim = readlineSync.question('Digite a data de devolucao: ');
+            const clienteAluguel = new Cliente(nome, cpf, carta);
+            const veiculoAluguel = new Veiculo(tipo, marca, modelo, ano, placa, diaria, estaDisponivel);
+0           novoVeiculo.cadastarAluguel(inicio, fim, clienteAluguel, veiculoAluguel);
+            break;
 
+        case 3:
+            const clienteDevolucao = new Cliente( );
+            novoVeiculo.devolverVeiculo(clienteDevolucao);
+            break;
 
+        case 4:
+            Veiculo.listarVeiculosDisponiveis(veiculos);
+            break;
 
-// Locadora.cadastarAluguel(dataInicial,dataFinal, cliente!, veiculo!)
-// console.table(Locadora.listarAlugueis())
-// Cliente.excluirCliente(0)
+        case 5:
+            Veiculo.listarVeiculosAlugados(veiculos);
+            break;
 
-// console.table(Cliente.listar());
-// Cliente.cadastrarCliente('Josiana', '323.654.789-99', 'A');
-// console.table(Cliente.listar());
+        case 6:
+            running = false;
+            break;
 
-// console.table(Cliente.listar());
-// Cliente.editarCliente(3, 'Joãozinho','111.222.333-44', 'A' );
-// Cliente.excluirCliente(11)
-
-
-// Cliente.cadastrarCliente('Josiane', '333.654.789-99', 'A');
-// console.table(Cliente.listar());
-// console.table(Locadora.listarVeiculos());
-
-
-// let veiculo: Veiculo  = Locadora.recuperarVeiculo('BCD7890');
-// let veiculo: Veiculo  = Locadora.recuperarVeiculo('JKL3456');
-let veiculo: Veiculo  = Locadora.recuperarVeiculo('STU5678');
-let cliente: Cliente = Cliente.recuperarCliente(3);
-// console.table(veiculo);
-// console.table(cliente);
-const dataInicial: Date = new Date(2023, 10, 23);
-const dataFinal: Date = new Date(2023, 10, 29);
-
-Locadora.cadastarAluguel(dataInicial, dataFinal, cliente, veiculo);
-
-console.table(Aluguel.listarAlugueis());
-console.table(Aluguel.listarAlugueisAtivos());
+        default:
+            console.log('Opção inválida. Tente novamente.');
+    }
+}
