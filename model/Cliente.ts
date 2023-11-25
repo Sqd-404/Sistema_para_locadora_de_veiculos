@@ -9,35 +9,28 @@ class Cliente {
 	private id: number = 0;
 	static totalClientes: number;
 
-	constructor(nome: string, cpf: string, tipoDeCarta: string) {
-		this.$nome = nome;
-		this.$cpf = cpf;
-		this.$tipoDeCarteira = tipoDeCarta;
+	constructor(
+        nome: string, 
+        cpf: string, 
+        tipoDeCarta: string) {
 	}
 
 	//geters e seters//
 
-	public get $nome(): string {
-		return this.$nome;
+    /**
+     * Getter $id
+     * @return {number }
+     */
+	public get $id(): number  {
+		return this.id;
 	}
 
-	public set $nome(value: string) {
-		this.$nome = value;
-	}
-	public get $cpf(): string {
-		return this.$cpf;
-	}
-
-	public set $cpf(value: string) {
-		this.$cpf = value;
-	}
-
-	public get $tipoDeCarteira(): string {
-		return this.$tipoDeCarteira;
-	}
-
-	public set $tipoDeCarteira(value: string) {
-		this.$tipoDeCarteira = value;
+    /**
+     * Setter $id
+     * @param {number } value
+     */
+	public set $id(value: number ) {
+		this.id = value;
 	}
 
 	//métodos//
@@ -120,22 +113,13 @@ class Cliente {
 		}
 	}
 
-    static recuperarCliente(id: number) : Cliente | undefined  {
+    static recuperarCliente(id: number) : Cliente  {
 		const clientes = Cliente.listar();
 		const clienteEncontrado = clientes.find(
 			(cliente: Cliente) => cliente.id === id
 		);
-		if (clienteEncontrado !== -1) {
-			const { nome, cpf, tipoCarteira } =
-            clienteEncontrado;
-			const cliente = new Cliente(
-                nome,
-                cpf,
-                tipoCarteira
-			);
-            cliente.id = id;
-            return cliente;
-
+		if (clienteEncontrado) {
+            return clienteEncontrado;
 		} else {
 			console.log(`cliente com id ${id} não foi encontrado.`);
 			return undefined;

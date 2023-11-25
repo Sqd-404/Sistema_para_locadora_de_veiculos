@@ -24,6 +24,8 @@ Aluguel.inicializarContador();
 // console.table(Locadora.listarVeiculos());
 
 console.table(Cliente.listar())
+let c1 = Cliente.recuperarCliente(3)
+console.table(c1)
 
 // let veiculo: Veiculo | undefined = Locadora.recuperarVeiculo('BCD7890');
 // let cliente: Cliente | undefined = Cliente.recuperarCliente(1);
