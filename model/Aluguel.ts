@@ -1,132 +1,127 @@
 import Cliente from "./Cliente";
 import Veiculo from "./Veiculo";
 
-const fs = require("fs");
-const path = require("path");
+const fs = require('fs');
+const path = require('path');
 
-export class Aluguel {
-	private _estaAtivo: boolean = true;
-    private _valorAluguel: Number;
-    private _id: number;
-    private static contador: number = 0;
 
-	constructor(
-		private _dataInicio: Date,
-		private _dataFim: Date,
-		private _cliente: Cliente,
-		private _veiculo: Veiculo
-	) {
-        this._atualizarStatus();
-        this._id= Aluguel.contador;
+class Aluguel {
+    
+    private static contador: number = 0
+
+    constructor(
+        private _dataInicio: Date,
+        private _dataFim: Date,
+        private _valorAluguel: number,
+        private _cliente: Cliente,
+        private _veiculo: Veiculo,
+        private _estaAtivo: boolean,
+        private _id: number,
+    ) {
+        this._id = Aluguel.contador;
         Aluguel.contador++;
-        this._atualizarStatus();
-	}
+        this.calcularValorAlguel()
+        this._atualizarStatus()
+     }
 
-	//==> Getters e Setters <==
+    //==> Getters e Setters <==
 
-	public get id(): number {
-		return this._id;
-	}
-	public set id(id: number) {
-		this._id = id;
-	}
+    public get id(): number {
+        return this._id;
+    }
+    public set id(value: number) {
+        this._id = value;
+    }
 
-	public get dataInicio(): Date {
-		return this._dataInicio;
-	}
-	public set dataInicio(valor: Date) {
-		this._dataInicio = valor;
-	}
+    public get dataInicio() : Date {
+        return this._dataInicio
+    }
+    public set dataInicio(value : Date) {
+        this._dataInicio = value;
+    }
 
-	public get estaAtivo(): boolean {
-		return this._estaAtivo;
-	}
-	public set estaAtivo(value: boolean) {
-		this._estaAtivo = value;
-	}
+    public get estaAtivo(): boolean {
+        return this._estaAtivo;
+    }
+    public set estaAtivo(value: boolean) {
+        this._estaAtivo = value;
+    }
 
-	public get veiculo(): Veiculo {
-		return this._veiculo;
-	}
-	public set veiculo(value: Veiculo) {
-		this._veiculo = value;
-	}
+    public get veiculo(): Veiculo {
+        return this._veiculo;
+    }
+    public set veiculo(value: Veiculo) {
+        this._veiculo = value;
+    }
 
-	public get cliente(): Cliente {
-		return this._cliente;
-	}
-	public set cliente(value: Cliente) {
-		this._cliente = value;
-	}
+    public get cliente(): Cliente {
+        return this._cliente;
+    }
+    public set cliente(value: Cliente) {
+        this._cliente = value;
+    }
 
-	public get valorAluguel(): Number {
-		return this._valorAluguel;
-	}
-	public set valorAluguel(value: Number) {
-		this._valorAluguel = value;
-	}
+    public get valorAluguel(): number {
+        return this._valorAluguel;
+    }
+    public set valorAluguel(value: number) {
+        this._valorAluguel = value;
+    }
 
-	public get dataFim(): Date {
-		return this._dataFim;
-	}
-	public set dataFim(value: Date) {
-		this._dataFim = value;
-	}
+    public get dataFim(): Date {
+        return this._dataFim;
+    }
+    public set dataFim(value: Date) {
+        this._dataFim = value;
+    }
+    
+    //==> Métodos <==
 
-	//==> Métodos <==
+    calcularValorAlguel() : number {
+        const diasAlugados =  Math.ceil((this._dataFim.getTime() - this._dataInicio.getTime()) / (1000 * 3600 * 24)); // Calcula o número de dias de aluguel
 
-	calcularValorAlguel(): Number {
-		const diasAlugados = Math.ceil(
-			(this._dataFim.getTime() - this._dataInicio.getTime()) /
-				(1000 * 3600 * 24)
-		);
+        let resultado = this._veiculo.valorDiaria * diasAlugados;
 
-		let acrescimo = 0;
+        if(this._veiculo.tipo === 'Carro') {
+            resultado += resultado * 0.1; // Acréscimo de 10% para carros
+        } else if(this._veiculo.tipo === 'Moto') {
+            resultado += resultado * 0.05; // Acréscimo de 5% para motos
+        }
 
-		if (this._veiculo.tipo === "Carro") {
-			acrescimo = 0.1;
-		} else if (this._veiculo.tipo === "Moto") {
-			acrescimo = 0.05;
-		}
+        return resultado;
+    }
+    
+    private _atualizarStatus() : void {
+        const hoje = new Date();
 
-		const resultado =
-			this._veiculo.valorDiaria * diasAlugados * (1 + acrescimo);
-		return resultado;
-	}
+        if(hoje >= this.dataInicio && hoje <= this._dataFim) {
+            this._estaAtivo = true
+        } else {
+            this._estaAtivo = false
+        }
 
-	private _atualizarStatus(): void {
-		const hoje = new Date();
+        const filePath = path.join(__dirname, "..", "data", "veiculos.json");
+        try {
+            const content = fs.readFileSync(filePath, "utf-8");
+            const veiculos = JSON.parse(content);
 
-		if (hoje >= this.dataInicio && hoje <= this._dataFim) {
-			this._estaAtivo = true;
-		} else {
-			this._estaAtivo = false;
-		}
-	}
+            const index = veiculos.findIndex(
+                (veiculo: Veiculo) => veiculo.placa === this._veiculo.placa
+            );
 
-	atualizarEstadoVeiculo() {
-		const filePath = path.join(__dirname, "..", "data", "veiculos.json");
-		try {
-			const content = fs.readFileSync(filePath, "utf-8");
-			const veiculos = JSON.parse(content);
+            if(index !== -1) {
+                veiculos[index].estaDisponivel = !this._estaAtivo; // Define disponibilidade baseado no status do aluguel
 
-			const index = veiculos.findIndex(
-				(veiculo: Veiculo) => veiculo.placa === this._veiculo.placa
-			);
-
-			if (index !== -1) {
-				veiculos[index].estaDisponivel = false; // Atualiza o estado de disponibilidade no array de veículos
-
-				fs.writeFileSync(filePath, JSON.stringify(veiculos)); // Persiste a atualização no arquivo JSON
-			} else {
-				console.log(
-					`Veículo com placa ${this._veiculo.placa} não foi encontrado.`
-				);
-			}
-		} catch (error) {
-			console.error("Erro ao ler o arquivo JSON:", error);
-		}
-	}
+                fs.writeFileSync(filePath, JSON.stringify(veiculos)); // Persiste a atualização no arquivo JSON
+            } else {
+                console.log(
+                    `Veículo com placa ${this._veiculo.placa} não foi encontrado.`
+                );
+            }
+        } catch (error) {
+            console.error("Erro ao ler o arquivo JSON:", error);
+        } 
+    }
 
     static inicializarContador() {
         try {
@@ -148,5 +143,6 @@ export class Aluguel {
             Aluguel.contador = 1;
         }
     }
+}
 
-};
+export default Aluguel;
