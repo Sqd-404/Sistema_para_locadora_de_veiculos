@@ -1,6 +1,6 @@
 import Veiculo from "./Veiculo";
 import Cliente from "./Cliente";
-import { Aluguel } from "./Aluguel";
+import Aluguel from "./Aluguel";
 
 const fs = require("fs");
 const path = require("path");

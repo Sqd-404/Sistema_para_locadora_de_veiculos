@@ -1,5 +1,5 @@
 //todo menu / view
-import { Aluguel } from './model/Aluguel';
+import Aluguel from './model/Aluguel';
 import { Locadora } from './model/Locadora';
 import Veiculo from './model/Veiculo';
 import Cliente from "./model/Cliente";

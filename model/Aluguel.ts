@@ -7,16 +7,16 @@ const path = require('path');
 
 class Aluguel {
     
-    private static contador: number = 0
+    private static contador: number = 0;
+    private _valorAluguel: number;
+    private _estaAtivo: boolean;
+    private _id: number;
 
     constructor(
         private _dataInicio: Date,
         private _dataFim: Date,
-        private _valorAluguel: number,
         private _cliente: Cliente,
         private _veiculo: Veiculo,
-        private _estaAtivo: boolean,
-        private _id: number,
     ) {
         this._id = Aluguel.contador;
         Aluguel.contador++;
