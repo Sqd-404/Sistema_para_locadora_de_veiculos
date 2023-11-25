@@ -16,8 +16,8 @@ class Cliente {
         this._nome = nome;
         this._cpf = cpf;
         this._tipoDeCarta = tipoDeCarta;
+		Cliente.inicializarContador();
         this._id=Cliente.totalClientes;
-        Cliente.totalClientes++
     }
 
 	//geters e seters//
@@ -174,7 +174,6 @@ class Cliente {
 			return clienteEncontrado;
 		} else {
 			console.log(`cliente com id ${id} não foi encontrado.`);
-			return undefined;
 		}
 	}
 

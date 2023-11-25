@@ -214,7 +214,26 @@ export class Locadora {
 	// 		console.log(`Usuário com CPF ${cpf} não foi encontrado.`);
 	// 	}
 	// }
+	// static recuperarCliente(cpf: string) : Cliente | undefined  {
+	// 	const clientes = Locadora.listarClientes();
+	// 	const clienteEncontrado = clientes.find(
+	// 		(cliente: Cliente) => cliente.cpf === cpf
+	// 	);
+	// 	if (clienteEncontrado !== -1) {
+	// 		const { nome, cpf, tipoCarteira } =
+    //         clienteEncontrado;
+	// 		const cliente = new Cliente(
+    //             nome,
+    //             cpf,
+    //             tipoCarteira
+	// 		);
+    //         return cliente;
 
+	// 	} else {
+	// 		console.log(`cliente com cpf ${cpf} não foi encontrado.`);
+	// 		return undefined;
+	// 	}
+	// }
 	/**
 	 * Função responsável pelo cadastro de veiculos, ela possui uma verificação garantindo uma placa unica.
 	 * @param tipo
@@ -300,49 +319,19 @@ export class Locadora {
 		}
 	}
 
-	// static recuperarCliente(cpf: string) : Cliente | undefined  {
-	// 	const clientes = Locadora.listarClientes();
-	// 	const clienteEncontrado = clientes.find(
-	// 		(cliente: Cliente) => cliente.cpf === cpf
-	// 	);
-	// 	if (clienteEncontrado !== -1) {
-	// 		const { nome, cpf, tipoCarteira } =
-    //         clienteEncontrado;
-	// 		const cliente = new Cliente(
-    //             nome,
-    //             cpf,
-    //             tipoCarteira
-	// 		);
-    //         return cliente;
 
-	// 	} else {
-	// 		console.log(`cliente com cpf ${cpf} não foi encontrado.`);
-	// 		return undefined;
-	// 	}
-	// }
 
-	static recuperarVeiculo(placa: string): Veiculo | undefined  {
+	static recuperarVeiculo(placa: string): Veiculo {
 		const veiculos = Locadora.listarVeiculos();
 		const veiculoEncontrado = veiculos.find(
 			(veiculo: Veiculo) => veiculo.placa === placa
 		);
-		if (veiculoEncontrado !== -1) {
-			const { tipo, marca, modelo, ano, placa, valorDiaria, estaDisponivel } =
-				veiculoEncontrado;
-			const veiculo = new Veiculo(
-				tipo,
-				marca,
-				modelo,
-				ano,
-				placa,
-				valorDiaria,
-			);
-            veiculo.estaDisponivel=estaDisponivel;
-            return veiculo;
+		if (veiculoEncontrado) {
+            return veiculoEncontrado;
 
 		} else {
 			console.log(`Veiculo com placa ${placa} não foi encontrado.`);
-			return undefined;
+			return null;
 		}
 	}
 	/**

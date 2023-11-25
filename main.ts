@@ -4,8 +4,7 @@ import { Locadora } from './model/Locadora';
 import Veiculo from './model/Veiculo';
 import Cliente from "./model/Cliente";
 
-Aluguel.inicializarContador();
-Cliente.inicializarContador();
+
 
 // console.table(Locadora.listarClientes());
 
@@ -28,10 +27,8 @@ Cliente.inicializarContador();
 // let c1 = Cliente.recuperarCliente(3)
 // // console.table(c1)
 
-// let veiculo: Veiculo | undefined = Locadora.recuperarVeiculo('BCD7890');
-// let cliente: Cliente | undefined = Cliente.recuperarCliente(1);
-// const dataInicial: Date = new Date(2023, 10, 23);
-// const dataFinal: Date = new Date(2023, 10, 29);
+
+
 // Locadora.cadastarAluguel(dataInicial,dataFinal, cliente!, veiculo!)
 // console.table(Locadora.listarAlugueis())
 // Cliente.excluirCliente(0)
@@ -41,6 +38,22 @@ Cliente.inicializarContador();
 // console.table(Cliente.listar());
 
 // console.table(Cliente.listar());
-// // Cliente.editarCliente(3, 'Joãozinho','111.222.333-44', 'A' );
+// Cliente.editarCliente(3, 'Joãozinho','111.222.333-44', 'A' );
 // Cliente.excluirCliente(11)
+
+
+// Cliente.cadastrarCliente('Josiane', '333.654.789-99', 'A');
 // console.table(Cliente.listar());
+console.table(Locadora.listarVeiculos());
+
+
+// let veiculo: Veiculo  = Locadora.recuperarVeiculo('BCD7890');
+// let cliente: Cliente = Cliente.recuperarCliente(1);
+// console.table(veiculo);
+// console.table(cliente);
+// const dataInicial: Date = new Date(2023, 10, 23);
+// const dataFinal: Date = new Date(2023, 10, 29);
+
+// Locadora.cadastarAluguel(dataInicial, dataFinal, cliente, veiculo);
+
+console.table(Locadora.listarAlugueis())
