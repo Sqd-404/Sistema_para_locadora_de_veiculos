@@ -1,1 +1,38 @@
-[{"tipo":"carro","marca":"Porsche","modelo":"911","ano":1964,"placa":"YYY-333","valorDiaria":50000,"estaDisponivel":true}]
+[
+  {
+    "tipo": "carro",
+    "marca": "ferrari",
+    "modelo": "roma",
+    "ano": 2019,
+    "placa": "XXX-666",
+    "valorDiaria": 100000,
+    "estaDisponivel": true
+  },
+  {
+    "tipo": "moto",
+    "marca": "honda",
+    "modelo": "Ducati Diavela",
+    "ano": 2019,
+    "placa": "SSS-777",
+    "valorDiaria": 100000,
+    "estaDisponivel": true
+  },
+  {
+    "tipo": "moto",
+    "marca": "honda",
+    "modelo": "Ducati Diavela",
+    "ano": 2019,
+    "placa": "SSS-888",
+    "valorDiaria": 100000,
+    "estaDisponivel": false
+  },
+  {
+    "tipo": "moto",
+    "marca": "Honda",
+    "modelo": "Titan",
+    "ano": 2005,
+    "placa": "AAA-888",
+    "valorDiaria": 100,
+    "estaDisponivel": true
+  }
+]

@@ -27,10 +27,12 @@ class Veiculo {
     cadastrarVeiculo(veiculos: Veiculo[], tipo: string, marca: string, modelo: string, ano: number, placa: string, valorDiaria: number, estaDisponivel: boolean) {
         if (!this.veiculoExistente(veiculos, placa)) {
             const novoVeiculo = new Veiculo(tipo, marca, modelo, ano, placa, valorDiaria, estaDisponivel);
-            veiculos.push(novoVeiculo);
             try {
 				const filePath = path.join(__dirname, "..", "data", "veiculos.json");
-				fs.writeFileSync(filePath, JSON.stringify(veiculos));
+                const content = fs.readFileSync(filePath, 'utf-8');
+                const veiculos = JSON.parse(content);
+                veiculos.push(novoVeiculo);
+				fs.writeFileSync(filePath, JSON.stringify(veiculos, null, 2));
 			} catch (error) {
 				console.error("Erro ao ler o arquivo JSON:", error);
 			}
