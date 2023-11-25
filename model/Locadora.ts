@@ -235,21 +235,6 @@ export class Locadora {
 		}
 	}
 
-	static listarVeiculosDisponiveis() {
-		try {
-			const filePath = path.join(__dirname, "..", "data", "veiculos.json");
-			const content = fs.readFileSync(filePath, "utf-8");
-			const veiculos = JSON.parse(content);
-			const veiculosFiltrados = veiculos.filter(
-				(veiculo: any) => veiculo.estaDisponivel === true
-			);
-			return veiculosFiltrados;
-		} catch (error) {
-			console.error("Erro ao ler o arquivo JSON:", error);
-			return [];
-		}
-	}
-
 	static cadastrarAluguel(
 		dataInicio: Date,
 		dataFim: Date,

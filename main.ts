@@ -11,6 +11,7 @@ Cliente.inicializarContador();
 const veiculos: Veiculo[] = [];
 
 function exibirMenu() {
+    console.log('\n');
     console.log('======= MENU =======');
     console.log('1. Cadastrar veículo');
     console.log('2. Alugar veículo');
@@ -24,7 +25,7 @@ function exibirMenu() {
 let running = true;
 while (running) {
     exibirMenu();
-    const opcao = parseInt(readlineSync.question('Escolha uma opção: '));
+    const opcao = parseInt(readlineSync.question('Escolha uma opcao: '));
 
     switch (opcao) {
         case 1:
@@ -54,7 +55,7 @@ while (running) {
             aluguelAtivo.devolucaoVeiculo(cpfClienteDevolucao);
             
         case 4:
-            Locadora.listarVeiculosDisponiveis();
+            Veiculo.listarVeiculosDisponiveis(veiculos);
             break;
 
         case 5:

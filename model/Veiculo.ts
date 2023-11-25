@@ -1,6 +1,9 @@
 import Cliente from "./Cliente";
 import Aluguel from "./Aluguel";
 
+const fs = require("fs");
+const path = require("path");
+
 class Veiculo {
     tipo: string;
     marca: string;
@@ -18,16 +21,22 @@ class Veiculo {
         this.ano = ano;
         this.placa = placa;
         this.valorDiaria = valorDiaria;
-        this.estaDisponivel = false;
+        this.estaDisponivel = estaDisponivel;
     }
 
     cadastrarVeiculo(veiculos: Veiculo[], tipo: string, marca: string, modelo: string, ano: number, placa: string, valorDiaria: number, estaDisponivel: boolean) {
         if (!this.veiculoExistente(veiculos, placa)) {
             const novoVeiculo = new Veiculo(tipo, marca, modelo, ano, placa, valorDiaria, estaDisponivel);
             veiculos.push(novoVeiculo);
-            console.log('Veículo cadastrado com sucesso!');
+            try {
+				const filePath = path.join(__dirname, "..", "data", "veiculos.json");
+				fs.writeFileSync(filePath, JSON.stringify(veiculos));
+			} catch (error) {
+				console.error("Erro ao ler o arquivo JSON:", error);
+			}
+            console.log('\nVeículo cadastrado com sucesso!');
         } else {
-            console.log('Já existe um veículo com essa placa cadastrado.');
+            console.log('\nJá existe um veículo com essa placa cadastrado.');
         }
     }
 
@@ -52,9 +61,35 @@ class Veiculo {
     }
 
     static listarVeiculosAlugados(veiculos: Veiculo[]) {
-        const veiculosAlugados = veiculos.filter((veiculo) => !veiculo.estaDisponivel);
-        console.log('Veículos alugados:');
-        veiculosAlugados.forEach((veiculo) => console.log(veiculo.placa));
+        try {
+			const filePath = path.join(__dirname, "..", "data", "veiculos.json");
+			const content = fs.readFileSync(filePath, "utf-8");
+			const veiculos = JSON.parse(content);
+			const veiculosFiltrados = veiculos.filter(
+				(veiculo) => veiculo.estaDisponivel === false
+			);
+            console.log('\nVeículos alugados:');
+            veiculosFiltrados.forEach((veiculo) => console.log(veiculo));
+		} catch (error) {
+			console.error("Erro ao ler o arquivo JSON:", error);
+			return [];
+		}
+    }
+
+    static listarVeiculosDisponiveis(veiculos: Veiculo[]) {
+        try {
+			const filePath = path.join(__dirname, "..", "data", "veiculos.json");
+			const content = fs.readFileSync(filePath, "utf-8");
+			const veiculos = JSON.parse(content);
+			const veiculosFiltrados = veiculos.filter(
+				(veiculo) => veiculo.estaDisponivel === true
+			);
+            console.log('\nVeículos disponíveis:');
+            veiculosFiltrados.forEach((veiculo) => console.log(veiculo));
+		} catch (error) {
+			console.error("Erro ao ler o arquivo JSON:", error);
+			return [];
+		}
     }
 
     private veiculoExistente(veiculos: Veiculo[], placa: string): boolean {
