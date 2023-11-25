@@ -44,16 +44,19 @@ import Cliente from "./model/Cliente";
 
 // Cliente.cadastrarCliente('Josiane', '333.654.789-99', 'A');
 // console.table(Cliente.listar());
-console.table(Locadora.listarVeiculos());
+// console.table(Locadora.listarVeiculos());
 
 
 // let veiculo: Veiculo  = Locadora.recuperarVeiculo('BCD7890');
-// let cliente: Cliente = Cliente.recuperarCliente(1);
+// let veiculo: Veiculo  = Locadora.recuperarVeiculo('JKL3456');
+let veiculo: Veiculo  = Locadora.recuperarVeiculo('STU5678');
+let cliente: Cliente = Cliente.recuperarCliente(3);
 // console.table(veiculo);
 // console.table(cliente);
-// const dataInicial: Date = new Date(2023, 10, 23);
-// const dataFinal: Date = new Date(2023, 10, 29);
+const dataInicial: Date = new Date(2023, 10, 23);
+const dataFinal: Date = new Date(2023, 10, 29);
 
-// Locadora.cadastarAluguel(dataInicial, dataFinal, cliente, veiculo);
+Locadora.cadastarAluguel(dataInicial, dataFinal, cliente, veiculo);
 
-console.table(Locadora.listarAlugueis())
+console.table(Aluguel.listarAlugueis());
+console.table(Aluguel.listarAlugueisAtivos());

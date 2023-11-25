@@ -18,7 +18,7 @@ class Aluguel {
 	) {
 		Aluguel.inicializarContador();
 		this._id = Aluguel.contador;
-		this.calcularValorAlguel();
+		this._valorAluguel = this.calcularValorAlguel();
 		this._atualizarStatus();
 	}
 
@@ -143,6 +143,34 @@ class Aluguel {
 			Aluguel.contador = 1;
 		}
 	}
+
+
+	static listarAlugueis() {
+		try {
+			const filePath = path.join(__dirname, "..", "data", "alugueis.json");
+			const content = fs.readFileSync(filePath, "utf-8");
+			const alugueis = JSON.parse(content);
+			return alugueis;
+		} catch (error) {
+			console.error("Erro ao ler o arquivo JSON:", error);
+			return [];
+		}
+	}
+	static listarAlugueisAtivos() {
+		try {
+			const filePath = path.join(__dirname, "..", "data", "alugueis.json");
+			const content = fs.readFileSync(filePath, "utf-8");
+			const alugueis = JSON.parse(content);
+			const alugueisFiltrados = alugueis.filter(
+				(aluguel: Aluguel) => aluguel._estaAtivo === true
+			);
+			return alugueisFiltrados;
+		} catch (error) {
+			console.error("Erro ao ler o arquivo JSON:", error);
+			return [];
+		}
+	}
+
 }
 
 export default Aluguel;

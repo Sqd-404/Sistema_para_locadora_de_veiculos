@@ -410,14 +410,16 @@ export class Locadora {
 		veiculo: Veiculo
 	) {
 		const novoAluguel = new Aluguel(dataInicio, dataFim, cliente, veiculo);
-		const alugueis = Locadora.listarAlugueis();
-		const alugueisAtivos = Locadora.listarAlugueisAtivos();
+		const alugueis = Aluguel.listarAlugueis();
+		const alugueisAtivos = Aluguel.listarAlugueisAtivos();
 
-		const clienteAtivo = alugueisAtivos.some(
-			(aluguel) => alugueis.cliente === cliente
-		);
+		//necessario corrigir logica do cliente id e adicionar filtro por tipo de carta.
+		// const clienteAtivo = alugueisAtivos.some(
+		// 	(aluguel) => aluguel._cliente.id === cliente.id
+		// );
+		
 		const carroAtivo = alugueisAtivos.some(
-			(aluguel) => alugueis.veiculo === veiculo
+			(aluguel) => aluguel._veiculo.placa === veiculo.placa
 		);
 		if (clienteAtivo) {
 			console.log(
@@ -448,30 +450,30 @@ export class Locadora {
 	) {
 		//todo id unico
 	}
+	// static listarAlugueis() {
+	// 	try {
+	// 		const filePath = path.join(__dirname, "..", "data", "alugueis.json");
+	// 		const content = fs.readFileSync(filePath, "utf-8");
+	// 		const alugueis = JSON.parse(content);
+	// 		return alugueis;
+	// 	} catch (error) {
+	// 		console.error("Erro ao ler o arquivo JSON:", error);
+	// 		return [];
+	// 	}
+	// }
+	// static listarAlugueisAtivos() {
+	// 	try {
+	// 		const filePath = path.join(__dirname, "..", "data", "alugueis.json");
+	// 		const content = fs.readFileSync(filePath, "utf-8");
+	// 		const alugueis = JSON.parse(content);
+	// 		const alugueisFiltrados = alugueis.filter(
+	// 			(aluguel: Aluguel) => aluguel.estaAtivo === true
+	// 		);
+	// 		return alugueisFiltrados;
+	// 	} catch (error) {
+	// 		console.error("Erro ao ler o arquivo JSON:", error);
+	// 		return [];
+	// 	}
+	// }
 
-	static listarAlugueis() {
-		try {
-			const filePath = path.join(__dirname, "..", "data", "alugueis.json");
-			const content = fs.readFileSync(filePath, "utf-8");
-			const alugueis = JSON.parse(content);
-			return alugueis;
-		} catch (error) {
-			console.error("Erro ao ler o arquivo JSON:", error);
-			return [];
-		}
-	}
-	static listarAlugueisAtivos() {
-		try {
-			const filePath = path.join(__dirname, "..", "data", "alugueis.json");
-			const content = fs.readFileSync(filePath, "utf-8");
-			const alugueis = JSON.parse(content);
-			const alugueisFiltrados = alugueis.filter(
-				(aluguel: Aluguel) => aluguel.estaAtivo === true
-			);
-			return alugueisFiltrados;
-		} catch (error) {
-			console.error("Erro ao ler o arquivo JSON:", error);
-			return [];
-		}
-	}
 }
