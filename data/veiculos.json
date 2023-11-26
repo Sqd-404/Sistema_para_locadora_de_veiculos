@@ -34,5 +34,14 @@
     "placa": "AAA-888",
     "valorDiaria": 100,
     "estaDisponivel": true
+  },
+  {
+    "tipo": "moto",
+    "marca": "BMW",
+    "modelo": "S 1000 RR",
+    "ano": 2024,
+    "placa": "BCD7890",
+    "valorDiaria": 88,
+    "estaDisponivel": false
   }
 ]

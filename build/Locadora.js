@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Locadora = void 0;
 const Veiculo_1 = require("./Veiculo");
+const Cliente_1 = require("./Cliente");
 const Aluguel_1 = require("./Aluguel");
 const fs = require("fs");
 const path = require("path");
@@ -100,129 +101,8 @@ class Locadora {
     set $veiculos(value) {
         this._veiculos = value;
     }
-    // /**
-    //  * Função responsável pelo cadastro de clientes, ela possui uma verificação garantindo um cpf unico.
-    //  * @param nome
-    //  * @param cpf
-    //  * @param tipoCarteira
-    //  * @returns
-    //  */
-    // static cadastrarCliente(nome: string, cpf: string, tipoCarteira: string) {
-    // 	const clienteNovo = new Cliente(nome, cpf, tipoCarteira);
-    // 	const clientes = Locadora.listarClientes();
-    // 	/**
-    // 	 * verifica se existe o cpf cadastrado
-    // 	 */
-    // 	const cpfExiste = clientes.some((cliente) => cliente.cpf === cpf);
-    // 	if (cpfExiste) {
-    // 		console.log("CPF já cadastrado. Não é possível adicionar cliente.");
-    // 		return;
-    // 	} else {
-    // 		clientes.push(clienteNovo);
-    // 		try {
-    // 			const filePath = path.join(__dirname, "..", "data", "clientes.json");
-    // 			fs.writeFileSync(filePath, JSON.stringify(clientes));
-    // 		} catch (error) {
-    // 			console.error("Erro ao ler o arquivo JSON:", error);
-    // 		}
-    // 	}
-    // }
-    // /**
-    //  * Metodo estático responsável por listar os clientes da locadora.
-    //  * @returns
-    //  */
-    // static listarClientes() {
-    // 	try {
-    // 		const filePath = path.join(__dirname, "..", "data", "clientes.json");
-    // 		const content = fs.readFileSync(filePath, "utf-8");
-    // 		const clientes = JSON.parse(content);
-    // 		return clientes;
-    // 	} catch (error) {
-    // 		console.error("Erro ao ler o arquivo JSON:", error);
-    // 		return [];
-    // 	}
-    // }
-    // /**
-    //  * A partir do cpf (atributo único de cliente) ele pega o cliente edita e salva o json
-    //  * @param nome
-    //  * @param cpf
-    //  * @param tipoCarteira
-    //  */
-    // static editarCliente(nome: string, cpf: string, tipoCarteira: string) {
-    // 	const clientes = Locadora.listarClientes();
-    // 	/**
-    // 	 * verifica se existe o cpf cadastrado
-    // 	 */
-    // 	const clienteExiste = clientes.find(
-    // 		(cliente: Cliente) => cliente.cpf === cpf
-    // 	);
-    // 	if (clienteExiste) {
-    // 		clienteExiste.nome = nome;
-    // 		clienteExiste.tipoCarteira = tipoCarteira;
-    // 		try {
-    // 			const filePath = path.join(__dirname, "..", "data", "clientes.json");
-    // 			fs.writeFileSync(filePath, JSON.stringify(clientes));
-    // 		} catch (error) {
-    // 			console.error("Erro ao ler o arquivo JSON:", error);
-    // 		}
-    // 	} else {
-    // 		console.log(`Usuário com CPF ${cpf} não foi encontrado.`);
-    // 	}
-    // }
-    // /**
-    //  * A partir do cpf (atributo único de cliente) ele pega o cliente e o exclui
-    //  * @param nome
-    //  * @param cpf
-    //  * @param tipoCarteira
-    //  */
-    // static excluirCliente(cpf: string) {
-    // 	const clientes = Locadora.listarClientes();
-    // 	/**
-    // 	 * verifica se existe o cpf cadastrado e retorna o index
-    // 	 */
-    // 	const index = clientes.findIndex((cliente: Cliente) => cliente.cpf === cpf);
-    // 	if (index !== -1) {
-    // 		clientes.splice(index, 1);
-    // 		try {
-    // 			const filePath = path.join(__dirname, "..", "data", "clientes.json");
-    // 			fs.writeFileSync(filePath, JSON.stringify(clientes));
-    // 		} catch (error) {
-    // 			console.error("Erro ao ler o arquivo JSON:", error);
-    // 		}
-    // 	} else {
-    // 		console.log(`Usuário com CPF ${cpf} não foi encontrado.`);
-    // 	}
-    // }
-    // static recuperarCliente(cpf: string) : Cliente | undefined  {
-    // 	const clientes = Locadora.listarClientes();
-    // 	const clienteEncontrado = clientes.find(
-    // 		(cliente: Cliente) => cliente.cpf === cpf
-    // 	);
-    // 	if (clienteEncontrado !== -1) {
-    // 		const { nome, cpf, tipoCarteira } =
-    //         clienteEncontrado;
-    // 		const cliente = new Cliente(
-    //             nome,
-    //             cpf,
-    //             tipoCarteira
-    // 		);
-    //         return cliente;
-    // 	} else {
-    // 		console.log(`cliente com cpf ${cpf} não foi encontrado.`);
-    // 		return undefined;
-    // 	}
-    // }
-    /**
-     * Função responsável pelo cadastro de veiculos, ela possui uma verificação garantindo uma placa unica.
-     * @param tipo
-     * @param marca
-     * @param modelo
-     * @param ano
-     * @param placa
-     * @param valorDiaria
-     */
-    static cadastrarVeiculo(tipo, marca, modelo, ano, placa, valorDiaria) {
-        const veiculoNovo = new Veiculo_1.default(tipo, marca, modelo, ano, placa, valorDiaria);
+    static cadastrarVeiculo(tipo, marca, modelo, ano, placa, valorDiaria, estaDisponivel) {
+        const veiculoNovo = new Veiculo_1.default(tipo, marca, modelo, ano, placa, valorDiaria, estaDisponivel);
         const veiculos = Locadora.listarVeiculos();
         /**
          * verifica se existe a placa cadastrada
@@ -236,22 +116,13 @@ class Locadora {
             veiculos.push(veiculoNovo);
             try {
                 const filePath = path.join(__dirname, "..", "data", "veiculos.json");
-                fs.writeFileSync(filePath, JSON.stringify(veiculos));
+                fs.writeFileSync(filePath, JSON.stringify(veiculos, null, 2));
             }
             catch (error) {
                 console.error("Erro ao ler o arquivo JSON:", error);
             }
         }
     }
-    /**
-     * Classe responsável por editar o veiculo baseando na placa
-     * @param tipo
-     * @param marca
-     * @param modelo
-     * @param ano
-     * @param placa
-     * @param valorDiaria
-     */
     static editarVeiculo(tipo, marca, modelo, ano, placa, valorDiaria) {
         const veiculos = Locadora.listarVeiculos();
         /**
@@ -266,7 +137,7 @@ class Locadora {
             veiculoExiste.valorDiaria = valorDiaria;
             try {
                 const filePath = path.join(__dirname, "..", "data", "veiculos.json");
-                fs.writeFileSync(filePath, JSON.stringify(veiculos));
+                fs.writeFileSync(filePath, JSON.stringify(veiculos, null, 2));
             }
             catch (error) {
                 console.error("Erro ao ler o arquivo JSON:", error);
@@ -287,15 +158,6 @@ class Locadora {
             return null;
         }
     }
-    /**
-     * Classe responsável por excluir o veiculo baseando na placa
-     * @param tipo
-     * @param marca
-     * @param modelo
-     * @param ano
-     * @param placa
-     * @param valorDiaria
-     */
     static excluirVeiculo(placa) {
         const veiculos = Locadora.listarVeiculos();
         /**
@@ -306,7 +168,7 @@ class Locadora {
             veiculos.splice(index, 1);
             try {
                 const filePath = path.join(__dirname, "..", "data", "veiculos.json");
-                fs.writeFileSync(filePath, JSON.stringify(veiculos));
+                fs.writeFileSync(filePath, JSON.stringify(veiculos, null, 2));
             }
             catch (error) {
                 console.error("Erro ao ler o arquivo JSON:", error);
@@ -332,38 +194,19 @@ class Locadora {
             return [];
         }
     }
-    static listarVeiculosDisponiveis() {
-        try {
-            const filePath = path.join(__dirname, "..", "data", "veiculos.json");
-            const content = fs.readFileSync(filePath, "utf-8");
-            const veiculos = JSON.parse(content);
-            const veiculosFiltrados = veiculos.filter((veiculo) => veiculo.estaDisponivel === true);
-            return veiculosFiltrados;
-        }
-        catch (error) {
-            console.error("Erro ao ler o arquivo JSON:", error);
-            return [];
-        }
-    }
-    /**
-     *
-     * @param id
-     * @param dataInicio
-     * @param dataFim
-     * @param valorAluguel
-     * @param cliente
-     * @param veiculo
-     * @param estaAtivo
-     */
-    static cadastarAluguel(dataInicio, dataFim, cliente, veiculo) {
-        const novoAluguel = new Aluguel_1.default(dataInicio, dataFim, cliente, veiculo);
+    static cadastrarAluguel(dataInicio, dataFim, cpfCliente, placaVeiculo) {
+        const cliente = Cliente_1.default.encontrarClientePorCPF(cpfCliente);
+        const veiculo = Locadora.recuperarVeiculo(placaVeiculo);
         const alugueis = Aluguel_1.default.listarAlugueis();
         const alugueisAtivos = Aluguel_1.default.listarAlugueisAtivos();
-        //necessario corrigir logica do cliente id e adicionar filtro por tipo de carta.
-        // const clienteAtivo = alugueisAtivos.some(
-        // 	(aluguel) => aluguel._cliente.id === cliente.id
-        // );
-        const carroAtivo = alugueisAtivos.some((aluguel) => aluguel._veiculo.placa === veiculo.placa);
+        const carroAtivo = alugueisAtivos.some((aluguel) => aluguel._veiculo.placa === placaVeiculo);
+        const clienteAtivo = alugueisAtivos.some((aluguel) => aluguel._cliente.cpf === cpfCliente);
+        // Verifica se o cliente e o veículo foram encontrados
+        if (!cliente || !veiculo) {
+            console.log("Cliente ou veículo não encontrado.");
+            return;
+        }
+        //Verificando se o cliente já possui aluguel ativo e se o carro já está alugado
         if (clienteAtivo) {
             console.log("O cliente já possui um aluguel ativo. Não é possível adicionar o aluguel.");
             return;
@@ -372,15 +215,22 @@ class Locadora {
             console.log("O carro já possui um aluguel ativo. Não é possível adicionar o aluguel.");
             return;
         }
-        else {
+        //Lógica para adicionar aluguel na lista de alugueis com base no tipo de veiculo e  carteira do cliente
+        if ((cliente.tipoDeCarta === 'A' && veiculo.tipo === 'A') ||
+            (cliente.tipoDeCarta === 'B' && veiculo.tipo === 'B')) {
+            const novoAluguel = new Aluguel_1.default(dataInicio, dataFim, cliente, veiculo);
             alugueis.push(novoAluguel);
             try {
                 const filePath = path.join(__dirname, "..", "data", "alugueis.json");
-                fs.writeFileSync(filePath, JSON.stringify(alugueis));
+                fs.writeFileSync(filePath, JSON.stringify(alugueis, null, 2));
             }
             catch (error) {
-                console.error("Erro ao ler o arquivo JSON:", error);
+                console.error("Erro ao escrever no arquivo JSON:", error);
             }
+            novoAluguel.atualizarStatus();
+        }
+        else {
+            console.log("A carteira do cliente não é compatível com este tipo de veículo.");
         }
     }
     editarAluguel(dataInicio, dataFim, cliente, veiculo) {
