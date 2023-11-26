@@ -7,10 +7,12 @@ import { read } from 'fs';
 
 Aluguel.inicializarContador();
 Cliente.inicializarContador();
+Cliente.cadastrarCliente('Zeno', '111.222.333-44', 'A');
 
 const veiculos: Veiculo[] = [];
 
 function exibirMenu() {
+    console.log('\n');
     console.log('======= MENU =======');
     console.log('1. Cadastrar veículo');
     console.log('2. Alugar veículo');
@@ -24,7 +26,7 @@ function exibirMenu() {
 let running = true;
 while (running) {
     exibirMenu();
-    const opcao = parseInt(readlineSync.question('Escolha uma opção: '));
+    const opcao = parseInt(readlineSync.question('Escolha uma opcao: '));
 
     switch (opcao) {
         case 1:
@@ -41,16 +43,18 @@ while (running) {
             break;
 
         case 2:
-            const dataInicio = new Date(readlineSync.question('Digite a data de início (YYYY-MM-DD): '));
-            const dataFim = new Date(readlineSync.question('Digite a data de término (YYYY-MM-DD): '));
+            const dataInicio = new Date(readlineSync.question('Digite a data de inicio (YYYY-MM-DD): '));
+            const dataFim = new Date(readlineSync.question('Digite a data de termino (YYYY-MM-DD): '));
             const cpfCliente = readlineSync.question('Digite o CPF do cliente: ');
-            const placaVeiculo = readlineSync.question('Digite a placa do veículo que deseja alugar: ');
+            const placaVeiculo = readlineSync.question('Digite a placa do veiculo que deseja alugar: ');
             Locadora.cadastrarAluguel(dataInicio, dataFim, cpfCliente, placaVeiculo);
             break;
 
         case 3:
             const cpfClienteDevolucao = readlineSync.question('Digite o CPF do cliente: ');
-
+            const aluguelAtivo = Aluguel.listarAlugueisAtivos().find((aluguel) => aluguel._cliente.cpf === cpfCliente);
+            aluguelAtivo.devolucaoVeiculo(cpfClienteDevolucao);
+            
         case 4:
             Veiculo.listarVeiculosDisponiveis(veiculos);
             break;

@@ -10,8 +10,8 @@ class Aluguel {
         this._veiculo = _veiculo;
         Aluguel.inicializarContador();
         this._id = Aluguel.contador;
-        this._valorAluguel = this.calcularValorAlguel();
-        this._atualizarStatus();
+        this._valorAluguel = this.calcularValorAluguel();
+        this.atualizarStatus();
     }
     //==> Getters e Setters <==
     get id() {
@@ -57,7 +57,7 @@ class Aluguel {
         this._dataFim = value;
     }
     //==> Métodos <==
-    calcularValorAlguel() {
+    calcularValorAluguel() {
         const diasAlugados = Math.ceil((this._dataFim.getTime() - this._dataInicio.getTime()) /
             (1000 * 3600 * 24)); // Calcula o número de dias de aluguel
         let resultado = this._veiculo.valorDiaria * diasAlugados;
@@ -69,7 +69,7 @@ class Aluguel {
         }
         return resultado;
     }
-    _atualizarStatus() {
+    atualizarStatus() {
         const hoje = new Date();
         if (hoje >= this.dataInicio && hoje <= this._dataFim) {
             this._estaAtivo = true;
@@ -84,7 +84,7 @@ class Aluguel {
             const index = veiculos.findIndex((veiculo) => veiculo.placa === this._veiculo.placa);
             if (index !== -1) {
                 veiculos[index].estaDisponivel = !this._estaAtivo; // Define disponibilidade baseado no status do aluguel
-                fs.writeFileSync(filePath, JSON.stringify(veiculos)); // Persiste a atualização no arquivo JSON
+                fs.writeFileSync(filePath, JSON.stringify(veiculos, null, 2)); // Persiste a atualização no arquivo JSON
             }
             else {
                 console.log(`Veículo com placa ${this._veiculo.placa} não foi encontrado.`);

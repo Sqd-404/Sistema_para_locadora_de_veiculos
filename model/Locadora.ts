@@ -143,7 +143,7 @@ export class Locadora {
 			veiculos.push(veiculoNovo);
 			try {
 				const filePath = path.join(__dirname, "..", "data", "veiculos.json");
-				fs.writeFileSync(filePath, JSON.stringify(veiculos));
+				fs.writeFileSync(filePath, JSON.stringify(veiculos, null, 2));
 			} catch (error) {
 				console.error("Erro ao ler o arquivo JSON:", error);
 			}
@@ -173,7 +173,7 @@ export class Locadora {
 			veiculoExiste.valorDiaria = valorDiaria;
 			try {
 				const filePath = path.join(__dirname, "..", "data", "veiculos.json");
-				fs.writeFileSync(filePath, JSON.stringify(veiculos));
+				fs.writeFileSync(filePath, JSON.stringify(veiculos, null, 2));
 			} catch (error) {
 				console.error("Erro ao ler o arquivo JSON:", error);
 			}
@@ -211,7 +211,7 @@ export class Locadora {
 			veiculos.splice(index, 1);
 			try {
 				const filePath = path.join(__dirname, "..", "data", "veiculos.json");
-				fs.writeFileSync(filePath, JSON.stringify(veiculos));
+				fs.writeFileSync(filePath, JSON.stringify(veiculos, null, 2));
 			} catch (error) {
 				console.error("Erro ao ler o arquivo JSON:", error);
 			}
@@ -234,21 +234,6 @@ export class Locadora {
 			return [];
 		}
 	}
-	static listarVeiculosDisponiveis() {
-		try {
-			const filePath = path.join(__dirname, "..", "data", "veiculos.json");
-			const content = fs.readFileSync(filePath, "utf-8");
-			const veiculos = JSON.parse(content);
-			const veiculosFiltrados = veiculos.filter(
-				(veiculo: any) => veiculo.estaDisponivel === true
-			);
-			return veiculosFiltrados;
-		} catch (error) {
-			console.error("Erro ao ler o arquivo JSON:", error);
-			return [];
-		}
-	}
-
 
 	static cadastrarAluguel(
 		dataInicio: Date,
@@ -264,7 +249,7 @@ export class Locadora {
 			(aluguel) => aluguel._veiculo.placa === placaVeiculo
 		);
 		const clienteAtivo = alugueisAtivos.some(
-			(aluguel) => aluguel._cliente.cpf === cliente.cpf
+			(aluguel) => aluguel._cliente.cpf === cpfCliente
 		);
 
 		// Verifica se o cliente e o veículo foram encontrados
@@ -296,7 +281,7 @@ export class Locadora {
 
 			try {
 				const filePath = path.join(__dirname, "..", "data", "alugueis.json");
-				fs.writeFileSync(filePath, JSON.stringify(alugueis));
+				fs.writeFileSync(filePath, JSON.stringify(alugueis, null, 2));
 			} catch (error) {
 				console.error("Erro ao escrever no arquivo JSON:", error);
 			}

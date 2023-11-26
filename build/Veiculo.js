@@ -1,5 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const Aluguel_1 = require("./Aluguel");
+const fs = require("fs");
+const path = require("path");
 class Veiculo {
     constructor(tipo, marca, modelo, ano, placa, valorDiaria, estaDisponivel) {
         this.tipo = tipo;
@@ -8,51 +11,70 @@ class Veiculo {
         this.ano = ano;
         this.placa = placa;
         this.valorDiaria = valorDiaria;
-        this.estaDisponivel = false;
+        this.estaDisponivel = estaDisponivel;
     }
     cadastrarVeiculo(veiculos, tipo, marca, modelo, ano, placa, valorDiaria, estaDisponivel) {
         if (!this.veiculoExistente(veiculos, placa)) {
             const novoVeiculo = new Veiculo(tipo, marca, modelo, ano, placa, valorDiaria, estaDisponivel);
-            veiculos.push(novoVeiculo);
-            console.log('Veículo cadastrado com sucesso!');
+            try {
+                const filePath = path.join(__dirname, "..", "data", "veiculos.json");
+                const content = fs.readFileSync(filePath, 'utf-8');
+                const veiculos = JSON.parse(content);
+                veiculos.push(novoVeiculo);
+                fs.writeFileSync(filePath, JSON.stringify(veiculos, null, 2));
+            }
+            catch (error) {
+                console.error("Erro ao ler o arquivo JSON:", error);
+            }
+            console.log('\nVeículo cadastrado com sucesso!');
         }
         else {
-            console.log('Já existe um veículo com essa placa cadastrado.');
+            console.log('\nJá existe um veículo com essa placa cadastrado.');
         }
     }
-    alugarVeiculo(cliente, tipoVeiculo) {
-        if (cliente.$veiculoAlugado) {
-            console.log('Você já possui um veículo alugado.');
-            return;
-        }
-        if (!this.alugado && ((tipoVeiculo === 'carro' && cliente._tipoDeCarteira === 'B') || (tipoVeiculo === 'moto' && cliente.$tipoDeCarteira === 'A'))) {
-            this.alugado = true;
-            cliente.$veiculoAlugado = this;
-            console.log('Veículo alugado com sucesso!');
+    devolverVeiculo(cpfCliente) {
+        const aluguelAtivo = Aluguel_1.default.listarAlugueisAtivos().find((aluguel) => aluguel._cliente.cpf === cpfCliente);
+        if (aluguelAtivo) {
+            aluguelAtivo.atualizarStatus();
+            if (aluguelAtivo._estaAtivo) {
+                console.log('Veículo devolvido dentro do prazo.');
+            }
+            else {
+                console.log('Veículo devolvido após a data de devolução.');
+            }
+            console.log('Veículo devolvido com sucesso.');
         }
         else {
-            console.log('Não é possível alugar o veículo.');
+            console.log('Não há aluguel ativo para este cliente.');
         }
     }
-    devolverVeiculo(cliente) {
-        if (cliente.$veiculoAlugado === this) {
-            this.alugado = false;
-            cliente.$veiculoAlugado = null;
-            console.log('Veículo devolvido com sucesso!');
+    static listarVeiculosAlugados(veiculos) {
+        try {
+            const filePath = path.join(__dirname, "..", "data", "veiculos.json");
+            const content = fs.readFileSync(filePath, "utf-8");
+            const veiculos = JSON.parse(content);
+            const veiculosFiltrados = veiculos.filter((veiculo) => veiculo.estaDisponivel === false);
+            console.log('\nVeículos alugados:');
+            veiculosFiltrados.forEach((veiculo) => console.log(veiculo));
         }
-        else {
-            console.log('Este veículo não está alugado por este cliente.');
+        catch (error) {
+            console.error("Erro ao ler o arquivo JSON:", error);
+            return [];
         }
     }
     static listarVeiculosDisponiveis(veiculos) {
-        const veiculosDisponiveis = veiculos.filter((veiculo) => !veiculo.alugado);
-        console.log('Veículos disponíveis:');
-        veiculosDisponiveis.forEach((veiculo) => console.log(veiculo.placa));
-    }
-    static listarVeiculosAlugados(veiculos) {
-        const veiculosAlugados = veiculos.filter((veiculo) => veiculo.alugado);
-        console.log('Veículos alugados:');
-        veiculosAlugados.forEach((veiculo) => console.log(veiculo.placa));
+        try {
+            const filePath = path.join(__dirname, "..", "data", "veiculos.json");
+            const content = fs.readFileSync(filePath, "utf-8");
+            const veiculos = JSON.parse(content);
+            const veiculosFiltrados = veiculos.filter((veiculo) => veiculo.estaDisponivel === true);
+            console.log('\nVeículos disponíveis:');
+            veiculosFiltrados.forEach((veiculo) => console.log(veiculo));
+        }
+        catch (error) {
+            console.error("Erro ao ler o arquivo JSON:", error);
+            return [];
+        }
     }
     veiculoExistente(veiculos, placa) {
         return veiculos.some((veiculo) => veiculo.placa === placa);
