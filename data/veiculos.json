@@ -42,7 +42,7 @@
     "ano": 2024,
     "placa": "BCD7890",
     "valorDiaria": 88,
-    "estaDisponivel": false
+    "estaDisponivel": true
   },
   {
     "tipo": "carro",
@@ -51,7 +51,7 @@
     "ano": 2018,
     "placa": "GOD2536",
     "valorDiaria": 60,
-    "estaDisponivel": false
+    "estaDisponivel": true
   },
   {
     "tipo": "carro",
@@ -60,6 +60,6 @@
     "ano": 2015,
     "placa": "ABC4568",
     "valorDiaria": 30,
-    "estaDisponivel": false
+    "estaDisponivel": true
   }
 ]

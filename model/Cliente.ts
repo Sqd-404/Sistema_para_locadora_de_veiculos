@@ -179,7 +179,7 @@ class Cliente {
 
 	static encontrarClientePorCPF(cpf: string): Cliente | undefined {
 		const clientes = Cliente.listar();
-		return clientes.find((cliente) => cliente.cpf === cpf);
+		return clientes.find((cliente) => cliente._cpf === cpf);
 	}
 
 	static inicializarContador() {

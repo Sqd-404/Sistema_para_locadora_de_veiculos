@@ -23,30 +23,6 @@ let running: boolean = true;
 while (running) {
 	exibirMenu();
 	const opcao: string = readlineSync.question("Escolha uma opcao: ");
-	
-	// 	switch (opcao) {
-	// 		case "1":
-	// 			console.log(opcao);
-	// 			break;
-	// 		case "2":
-	// 			console.log(opcao);
-	// 			break;
-	// 		case "3":
-	// 			console.log(opcao);
-	// 			break;
-	// 		case "4":
-	// 			console.log(opcao);
-	// 			break;
-	// 		case "5":
-	// 			console.log(opcao);
-	// 			break;
-	// 		case "6":
-	// 			console.log(opcao);
-	// 			break;
-	// 		default:
-	// 			console.log(opcao);
-	// 	}
-	// }
 
 	switch (opcao) {
 		case '1':

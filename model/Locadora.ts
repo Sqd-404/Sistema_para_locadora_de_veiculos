@@ -242,7 +242,10 @@ export class Locadora {
 		placaVeiculo: string
 	) {
 		const cliente = Cliente.encontrarClientePorCPF(cpfCliente);
+		console.log(cliente)
+		console.log(cliente.tipoDeCarta)
 		const veiculo = Locadora.recuperarVeiculo(placaVeiculo);
+		console.log(veiculo)
 		const alugueis = Aluguel.listarAlugueis();
 		const alugueisAtivos = Aluguel.listarAlugueisAtivos();
 		const carroAtivo = alugueisAtivos.some(
@@ -272,9 +275,9 @@ export class Locadora {
 		}
 		
 		//Lógica para adicionar aluguel na lista de alugueis com base no tipo de veiculo e  carteira do cliente
+		console.log('cliente.tipoDeCarta', cliente.tipoDeCarta)
 		if (
-			(cliente.tipoDeCarta === 'A' && veiculo.tipo === 'A') ||
-       		(cliente.tipoDeCarta === 'B' && veiculo.tipo === 'B')
+			cliente.tipoDeCarta === veiculo.tipo || cliente.tipoDeCarta === 'AB'
 		) {
 			const novoAluguel = new Aluguel(dataInicio, dataFim, cliente, veiculo);
 			alugueis.push(novoAluguel);

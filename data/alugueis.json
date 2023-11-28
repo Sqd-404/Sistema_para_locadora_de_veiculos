@@ -1,1 +1,24 @@
-[{"_dataInicio":"2023-11-23T03:00:00.000Z","_dataFim":"2023-11-29T03:00:00.000Z","_cliente":{"_id":1,"_nome":"José","_cpf":"123.654.789-99","_tipoDeCarta":"A"},"_veiculo":{"tipo":"moto","marca":"BMW","modelo":"S 1000 RR","ano":2024,"placa":"BCD7890","valorDiaria":88,"estaDisponivel":false},"_id":1,"_valorAluguel":528,"_estaAtivo":true},{"_dataInicio":"2023-11-23T03:00:00.000Z","_dataFim":"2023-11-29T03:00:00.000Z","_cliente":{"_id":3,"_nome":"Joãozinho","_cpf":"111.222.333-44","_tipoDeCarta":"A"},"_veiculo":{"tipo":"moto","marca":"Yamaha","modelo":"YZF R3","ano":2018,"placa":"JKL3456","valorDiaria":90,"estaDisponivel":false},"_id":1,"_valorAluguel":540,"_estaAtivo":true},{"_dataInicio":"2023-11-23T03:00:00.000Z","_dataFim":"2023-11-29T03:00:00.000Z","_cliente":{"_id":3,"_nome":"Joãozinho","_cpf":"111.222.333-44","_tipoDeCarta":"A"},"_veiculo":{"tipo":"carro","marca":"Ford","modelo":"Ka","ano":2016,"placa":"STU5678","valorDiaria":95,"estaDisponivel":false},"_id":1,"_valorAluguel":570,"_estaAtivo":true}]
+[
+  {
+    "_dataInicio": "2023-11-10T00:00:00.000Z",
+    "_dataFim": "2023-12-30T00:00:00.000Z",
+    "_cliente": {
+      "_id": 10,
+      "_nome": "Marcos",
+      "_cpf": "666.777.888-999",
+      "_tipoDeCarta": "AB"
+    },
+    "_veiculo": {
+      "tipo": "moto",
+      "marca": "honda",
+      "modelo": "Ducati Diavela",
+      "ano": 2019,
+      "placa": "SSS-888",
+      "valorDiaria": 100000,
+      "estaDisponivel": true
+    },
+    "_id": 1,
+    "_valorAluguel": 5000000,
+    "_estaAtivo": true
+  }
+]
