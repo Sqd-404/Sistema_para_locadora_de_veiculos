@@ -5,6 +5,7 @@ import Cliente from "./model/Cliente";
 import * as readlineSync from 'readline-sync';
 import { read } from "fs";
 
+
 const veiculos: Veiculo[] = [];
 
 function exibirMenu() {
@@ -55,7 +56,7 @@ while (running) {
 			const cpfClienteDevolucao = readlineSync.question(
 				"Digite o CPF do cliente: "
 			);
-			const aluguelAtivo = Aluguel.listarAlugueisAtivos().find(
+			const aluguelAtivo = Aluguel.listarAlugueisAtivos(true).find(
 				(aluguel) => aluguel._cliente.cpf === cpfCliente
 			);
 			aluguelAtivo.devolucaoVeiculo(cpfClienteDevolucao);

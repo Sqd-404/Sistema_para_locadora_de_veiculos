@@ -84,20 +84,14 @@ class Veiculo {
 	}
 
 	static devolverVeiculo(cpfCliente: string): void {
-		const aluguelAtivo = Aluguel.listarAlugueisAtivos().find(
+		const aluguelAtivo : Aluguel = Aluguel.listarAlugueisAtivos(true).find(
 			(aluguel) => aluguel._cliente.cpf === cpfCliente
 		);
 
 		if (aluguelAtivo) {
-			aluguelAtivo.atualizarStatus();
-
-			if (aluguelAtivo._estaAtivo) {
-				console.log("Veículo devolvido dentro do prazo.");
-			} else {
-				console.log("Veículo devolvido após a data de devolução.");
-			}
-
-			console.log("Veículo devolvido com sucesso.");
+			let aluguel = new Aluguel(aluguelAtivo.dataInicio, aluguelAtivo.dataFim, aluguelAtivo.cliente, aluguelAtivo.veiculo)
+			console.log(aluguel)
+			aluguel.finalizarAluguel();
 		} else {
 			console.log("Não há aluguel ativo para este cliente.");
 		}

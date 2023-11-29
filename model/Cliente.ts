@@ -177,9 +177,12 @@ class Cliente {
 		}
 	}
 
-	static encontrarClientePorCPF(cpf: string): Cliente | undefined {
+	static encontrarClientePorCPF(cpf: string): Cliente  {
 		const clientes = Cliente.listar();
-		return clientes.find((cliente) => cliente._cpf === cpf);
+		const cliente: Cliente = clientes.find((cliente: Cliente) => cliente._cpf.toUpperCase()  === cpf.toUpperCase() );
+		const newCli = new Cliente(cliente._nome, cliente._cpf, cliente._tipoDeCarta)
+		return newCli;
+
 	}
 
 	static inicializarContador() {

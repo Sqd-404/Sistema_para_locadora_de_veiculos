@@ -182,22 +182,27 @@ export class Locadora {
 		}
 	}
 
-
-
 	static recuperarVeiculo(placa: string): Veiculo {
 		const veiculos = Locadora.listarVeiculos();
-		const veiculoEncontrado = veiculos.find(
-			(veiculo: Veiculo) => veiculo.placa === placa
+		const veiculoEncontrado: Veiculo = veiculos.find(
+			(veiculo: Veiculo) => veiculo.placa.toUpperCase()  === placa.toUpperCase()
 		);
 		if (veiculoEncontrado) {
-            return veiculoEncontrado;
-
+			const newVeiculo: Veiculo = new Veiculo(
+				veiculoEncontrado.tipo,
+				veiculoEncontrado.marca,
+				veiculoEncontrado.modelo,
+				veiculoEncontrado.ano,
+				veiculoEncontrado.placa,
+				veiculoEncontrado.valorDiaria,
+				veiculoEncontrado.estaDisponivel
+			);
+			return newVeiculo;
 		} else {
 			console.log(`Veiculo com placa ${placa} não foi encontrado.`);
 			return null;
 		}
 	}
-
 
 	static excluirVeiculo(placa: string) {
 		const veiculos = Locadora.listarVeiculos();
@@ -205,7 +210,7 @@ export class Locadora {
 		 * verifica se existe a placa cadastrada
 		 */
 		const index = veiculos.findIndex(
-			(veiculo: Veiculo) => veiculo.placa === placa
+			(veiculo: Veiculo) => veiculo.placa.toUpperCase()  === placa.toUpperCase() 
 		);
 		if (index !== -1) {
 			veiculos.splice(index, 1);
@@ -242,12 +247,9 @@ export class Locadora {
 		placaVeiculo: string
 	) {
 		const cliente = Cliente.encontrarClientePorCPF(cpfCliente);
-		console.log(cliente)
-		console.log(cliente.tipoDeCarta)
 		const veiculo = Locadora.recuperarVeiculo(placaVeiculo);
-		console.log(veiculo)
 		const alugueis = Aluguel.listarAlugueis();
-		const alugueisAtivos = Aluguel.listarAlugueisAtivos();
+		const alugueisAtivos = Aluguel.listarAlugueisAtivos(true);
 		const carroAtivo = alugueisAtivos.some(
 			(aluguel) => aluguel._veiculo.placa === placaVeiculo
 		);
@@ -260,7 +262,7 @@ export class Locadora {
 			console.log("Cliente ou veículo não encontrado.");
 			return;
 		}
-		
+
 		//Verificando se o cliente já possui aluguel ativo e se o carro já está alugado
 		if (clienteAtivo) {
 			console.log(
@@ -273,12 +275,10 @@ export class Locadora {
 			);
 			return;
 		}
-		
+
 		//Lógica para adicionar aluguel na lista de alugueis com base no tipo de veiculo e  carteira do cliente
-		console.log('cliente.tipoDeCarta', cliente.tipoDeCarta)
-		if (
-			cliente.tipoDeCarta === veiculo.tipo || cliente.tipoDeCarta === 'AB'
-		) {
+		console.log("cliente._tipoDeCarta", cliente.tipoDeCarta);
+		if (cliente.tipoDeCarta === veiculo.tipo || cliente.tipoDeCarta === "AB") {
 			const novoAluguel = new Aluguel(dataInicio, dataFim, cliente, veiculo);
 			alugueis.push(novoAluguel);
 
@@ -291,42 +291,9 @@ export class Locadora {
 
 			novoAluguel.atualizarStatus();
 		} else {
-			console.log("A carteira do cliente não é compatível com este tipo de veículo.");
+			console.log(
+				"A carteira do cliente não é compatível com este tipo de veículo."
+			);
 		}
 	}
-
-	editarAluguel(
-		dataInicio: Date,
-		dataFim: Date,
-		cliente: Cliente,
-		veiculo: Veiculo
-	) {
-		//todo id unico
-	}
-	// static listarAlugueis() {
-	// 	try {
-	// 		const filePath = path.join(__dirname, "..", "data", "alugueis.json");
-	// 		const content = fs.readFileSync(filePath, "utf-8");
-	// 		const alugueis = JSON.parse(content);
-	// 		return alugueis;
-	// 	} catch (error) {
-	// 		console.error("Erro ao ler o arquivo JSON:", error);
-	// 		return [];
-	// 	}
-	// }
-	// static listarAlugueisAtivos() {
-	// 	try {
-	// 		const filePath = path.join(__dirname, "..", "data", "alugueis.json");
-	// 		const content = fs.readFileSync(filePath, "utf-8");
-	// 		const alugueis = JSON.parse(content);
-	// 		const alugueisFiltrados = alugueis.filter(
-	// 			(aluguel: Aluguel) => aluguel.estaAtivo === true
-	// 		);
-	// 		return alugueisFiltrados;
-	// 	} catch (error) {
-	// 		console.error("Erro ao ler o arquivo JSON:", error);
-	// 		return [];
-	// 	}
-	// }
-
 }

@@ -6,7 +6,7 @@
     "ano": 2019,
     "placa": "XXX-666",
     "valorDiaria": 100000,
-    "estaDisponivel": true
+    "estaDisponivel": false
   },
   {
     "tipo": "moto",

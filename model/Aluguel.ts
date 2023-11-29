@@ -124,6 +124,37 @@ class Aluguel {
 		}
 	}
 
+	finalizarAluguel(): void {
+		if (this._estaAtivo ) {
+			this._estaAtivo = false;
+			console.log(`Aluguel finalizado \nVeículo devolvido com sucesso.\n Valor: ${this._valorAluguel}`)
+		} else {
+			console.log(`Operação Invalida, este aluguel já foi finalizado!`)
+		}
+
+		const filePath = path.join(__dirname, "..", "data", "veiculos.json");
+		try {
+			const content = fs.readFileSync(filePath, "utf-8");
+			const veiculos = JSON.parse(content);
+
+			const index = veiculos.findIndex(
+				(veiculo: Veiculo) => veiculo.placa === this._veiculo.placa
+			);
+
+			if (index !== -1) {
+				veiculos[index].estaDisponivel = !this._estaAtivo; // Define disponibilidade baseado no status do aluguel
+
+				fs.writeFileSync(filePath, JSON.stringify(veiculos, null, 2)); // Persiste a atualização no arquivo JSON
+			} else {
+				console.log(
+					`Veículo com placa ${this._veiculo.placa} não foi encontrado.`
+				);
+			}
+		} catch (error) {
+			console.error("Erro ao ler o arquivo JSON:", error);
+		}
+	}
+
 	static inicializarContador() {
 		try {
 			const filePath = path.join(__dirname, "..", "data", "alugueis.json");
@@ -149,14 +180,14 @@ class Aluguel {
 		try {
 			const filePath = path.join(__dirname, "..", "data", "alugueis.json");
 			const content = fs.readFileSync(filePath, "utf-8");
-			const alugueis = JSON.parse(content);
+			const alugueis: Aluguel[] = JSON.parse(content);
 			return alugueis;
 		} catch (error) {
 			console.error("Erro ao ler o arquivo JSON:", error);
 			return [];
 		}
 	}
-	static listarAlugueisAtivos() {
+	static listarAlugueisAtivos(boo: boolean) {
 		try {
 			const filePath = path.join(__dirname, "..", "data", "alugueis.json");
 			const content = fs.readFileSync(filePath, "utf-8");
